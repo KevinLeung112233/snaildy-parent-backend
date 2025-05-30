@@ -1,0 +1,48 @@
+{"refresh":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDk5OTg5MywiaWF0IjoxNzQ4NDA3ODkzLCJqdGkiOiIzY2JjZDg2YTQ3Njc0NDBlYTMzNjE1Njg4ZGMyOGIxOCIsInVzZXJfaWQiOjJ9.nGgB2shwYaMZJSzVDYsyOcNGoy_PAFR-gfVYDmJO5HE",
+"access":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5MjcxODkzLCJpYXQiOjE3NDg0MDc4OTMsImp0aSI6IjhmNjIzYjM1MjE3YTRhZDdhODU1ZjEzZmRkMjJmMDE1IiwidXNlcl9pZCI6Mn0.mJbiVX7uaKV_Rd4kyYWHioeVS_07YBKbGZBNR5VSqGw"}%   
+#verify OTP
+curl -X POST http://127.0.0.1:8000/api/accounts/verify-otp/ \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "kevin886886@gmail.com",
+  "otp": "123456"
+}'
+
+#login
+curl -X POST http://localhost:8000/api/accounts/login/ \
+-H "Content-Type: application/json" \
+-d '{
+  "identifier": "kevin886886@gmail.com",
+  "password": "123456"
+}'
+
+#register
+curl -X POST http://localhost:8000/api/accounts/register/ \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "kevin886886@gmail.com",
+  "password": "123456",
+  "login_method": "email",
+  "first_name": "John",
+  "last_name": "Doe"
+}'
+
+#refresh token
+curl -X POST http://127.0.0.1:8000/api/accounts/token/refresh/ \
+-H "Content-Type: application/json" \
+-d '{
+"refresh" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0ODM5ODU3NiwiaWF0IjoxNzQ4MzEyMTc2LCJqdGkiOiI2YzQ5NDNkNjYwZTI0MTk4OGQxMzgxZTI3ZDA5MDgzNyIsInVzZXJfaWQiOjExfQ.u9Ovr06o24dWC0-pFrnvDVuSdODzeMRWOgQ1LrrsoQA"
+}'
+
+#bind student acc
+curl -X POST http://127.0.0.1:8000/api/accounts/bind-student/ \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NDUzNzAxLCJpYXQiOjE3NDg1ODk3MDEsImp0aSI6IjFiMDMwZWQwNTUxZTRjOTNhYjBmZWZmZTQ4OGNmZDA1IiwidXNlcl9pZCI6MX0._lCIV2g5KA67k08uhPPmfk5i100eF6NxCQrqtsU5CXQ" \
+-H "Content-Type: application/json" \
+-d '{
+  "student_token": "123321"
+}'
+
+#get profile
+curl -X GET http://127.0.0.1:8000/api/accounts/profile/ \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NDUzNzAxLCJpYXQiOjE3NDg1ODk3MDEsImp0aSI6IjFiMDMwZWQwNTUxZTRjOTNhYjBmZWZmZTQ4OGNmZDA1IiwidXNlcl9pZCI6MX0._lCIV2g5KA67k08uhPPmfk5i100eF6NxCQrqtsU5CXQ" \
+-H "Content-Type: application/json" \
