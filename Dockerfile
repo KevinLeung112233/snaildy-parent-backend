@@ -8,7 +8,8 @@ WORKDIR /app
 
 # Install system dependencies (netcat for database check)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    netcat-traditional \
+    build-essential \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
@@ -23,8 +24,13 @@ COPY . /app/
 # Make entrypoint executable
 RUN chmod +x /app/entrypoint.sh
 
+RUN python manage.py collectstatic --noinput -v 3
+
 # Collect static files
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput -v 3
+
+
+RUN chown -R 1000:1000 /app/staticfiles
 
 # RUN python manage.py makemigrations
 # RUN python manage.py migrate
