@@ -36,7 +36,7 @@ curl -X POST http://127.0.0.1:8000/api/accounts/token/refresh/ \
 
 #bind student acc
 curl -X POST http://127.0.0.1:8000/api/accounts/bind-student/ \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NDUzNzAxLCJpYXQiOjE3NDg1ODk3MDEsImp0aSI6IjFiMDMwZWQwNTUxZTRjOTNhYjBmZWZmZTQ4OGNmZDA1IiwidXNlcl9pZCI6MX0._lCIV2g5KA67k08uhPPmfk5i100eF6NxCQrqtsU5CXQ" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NDY0MzM3LCJpYXQiOjE3NDg2MDAzMzcsImp0aSI6Ijk2OWE2YTAzYTAxOTQyZDFiMmFmMjMwM2Y4OTVjMjc0IiwidXNlcl9pZCI6Mn0.BzqL9dTrAg4VIWr3BAnqc5a_6lMLKHQ5Tbcy6nPKHHQ" \
 -H "Content-Type: application/json" \
 -d '{
   "student_token": "123321"
