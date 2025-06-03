@@ -5,8 +5,9 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 
 from accounts.backends import UserModel
-from .models import CustomUser, StudentSession
+from .models import CustomUser
 from django.contrib.auth import authenticate, get_user_model
+from student.models import StudentSession
 
 User = get_user_model()
 
@@ -116,7 +117,8 @@ class StudentSessionSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
-    student_sessions = StudentSessionSerializer(many=True, read_only=True)
+    student_sessions = StudentSessionSerializer(
+        source='student_sessions', many=True, read_only=True)
 
     class Meta:
         model = User

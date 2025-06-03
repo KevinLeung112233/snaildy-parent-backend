@@ -1,5 +1,3 @@
-# accounts/views.py
-
 from accounts.models import CustomUser
 from uuid import uuid4
 from rest_framework.generics import RetrieveAPIView
@@ -12,13 +10,12 @@ from django.contrib.auth import get_user_model
 import re  # Added for email validation
 from django.contrib.auth import authenticate  # Added for authentication
 
-from accounts.models import StudentSession, MemberTier
+from accounts.models import MemberTier
 from .serializers import RegisterSerializer, OTPVerifySerializer, LoginSerializer, UserProfileSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
 from django.core.cache import cache
 import random
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from typing import Tuple
 
@@ -202,43 +199,6 @@ class TokenRefreshView(APIView):
             })
         except Exception as e:
             return Response({"detail": "Invalid or expired refresh token"}, status=status.HTTP_401_UNAUTHORIZED)
-
-
-class BindStudentView(generics.GenericAPIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    SESSION_TTL = 60 * 60 * 24 * 30  # 30 days
-
-    def generate_session_id(self):
-        return str(uuid.uuid4())
-
-    def store_stu_token_for_session(self, session_id, jwt_token, user_id):
-        # Store a dict with token and user_id for binding
-        cache.set(session_id, {"student_token": jwt_token,
-                  "user_id": user_id}, timeout=self.SESSION_TTL)
-
-    def get_stu_token_for_session(self, session_id):
-        return cache.get(session_id)
-
-    def delete_session(self, session_id):
-        cache.delete(session_id)
-
-    def post(self, request):
-        external_jwt = request.data.get('student_token')
-        if not external_jwt:
-            return Response({"detail": "student_token required"}, status=status.HTTP_400_BAD_REQUEST)
-
-        user = request.user  # Authenticated user from your server
-
-        session_id = self.generate_session_id()
-
-        # Store external JWT along with user ID for binding
-        self.store_stu_token_for_session(session_id, external_jwt, user.id)
-
-        # Create StudentSession record
-        StudentSession.objects.create(user=user, session_id=session_id)
-        return Response({"session_id": session_id})
 
 
 class UserProfileView(RetrieveAPIView):

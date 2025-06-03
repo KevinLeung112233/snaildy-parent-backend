@@ -23,6 +23,7 @@ urlpatterns = [
 
     # Your other URL patterns
     path('api/accounts/', include('accounts.urls')),
+    path('api/student/', include('student.urls')),
 ]
 
 

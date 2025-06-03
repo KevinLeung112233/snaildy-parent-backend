@@ -3,14 +3,14 @@ FROM python:3.12-slim
 # Prevent Python from buffering stdout/stderr
 ENV PYTHONUNBUFFERED=1
 
-# Set working directory
-WORKDIR /app
-
-# Install system dependencies (netcat for database check)
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
 
 # Copy requirements
 COPY requirements.txt /app/

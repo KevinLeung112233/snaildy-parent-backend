@@ -4,8 +4,8 @@
 curl -X POST http://127.0.0.1:8000/api/accounts/verify-otp/ \
 -H "Content-Type: application/json" \
 -d '{
-  "email": "kevin886886@gmail.com",
-  "otp": "123456"
+  "email": "kevin@snaildy.com",
+  "otp": "931322"
 }'
 
 #login
@@ -20,11 +20,11 @@ curl -X POST http://localhost:8000/api/accounts/login/ \
 curl -X POST http://localhost:8000/api/accounts/register/ \
 -H "Content-Type: application/json" \
 -d '{
-  "email": "kevin886886@gmail.com",
+  "email": "kevin@snaildy.com",
   "password": "123456",
   "login_method": "email",
-  "first_name": "John",
-  "last_name": "Doe"
+  "first_name": "Kevin",
+  "last_name": "Snaildy"
 }'
 
 #refresh token
@@ -35,14 +35,15 @@ curl -X POST http://127.0.0.1:8000/api/accounts/token/refresh/ \
 }'
 
 #bind student acc
-curl -X POST http://127.0.0.1:8000/api/accounts/bind-student/ \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NDY0MzM3LCJpYXQiOjE3NDg2MDAzMzcsImp0aSI6Ijk2OWE2YTAzYTAxOTQyZDFiMmFmMjMwM2Y4OTVjMjc0IiwidXNlcl9pZCI6Mn0.BzqL9dTrAg4VIWr3BAnqc5a_6lMLKHQ5Tbcy6nPKHHQ" \
+curl -X POST http://127.0.0.1:8000/api/student/bind-student/ \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5Njk5MjUyLCJpYXQiOjE3NDg4MzUyNTIsImp0aSI6IjY5ZTllYmMwMmRkNjRmZWZiYWUyZDM0NmMwYjc3N2FhIiwidXNlcl9pZCI6M30.8h37nMPeaI3RzBaoxCKYeFfWNmHxDaUuyXbkeb7AvYU" \
 -H "Content-Type: application/json" \
 -d '{
-  "student_token": "123321"
+  "student_token": "000000000"
+  ""
 }'
 
-#get profile
-curl -X GET http://127.0.0.1:8000/api/accounts/profile/ \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5NDUzNzAxLCJpYXQiOjE3NDg1ODk3MDEsImp0aSI6IjFiMDMwZWQwNTUxZTRjOTNhYjBmZWZmZTQ4OGNmZDA1IiwidXNlcl9pZCI6MX0._lCIV2g5KA67k08uhPPmfk5i100eF6NxCQrqtsU5CXQ" \
+#get all binded student tokens
+curl -X GET http://127.0.0.1:8000/api/student/get-all-binded-student-tokens/ \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5Njk5MjUyLCJpYXQiOjE3NDg4MzUyNTIsImp0aSI6IjY5ZTllYmMwMmRkNjRmZWZiYWUyZDM0NmMwYjc3N2FhIiwidXNlcl9pZCI6M30.8h37nMPeaI3RzBaoxCKYeFfWNmHxDaUuyXbkeb7AvYU" \
 -H "Content-Type: application/json" \

@@ -14,7 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
-DEBUG = True
+DEBUG = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +42,7 @@ if not DEBUG:
 SECRET_KEY = 'django-insecure-@n9goxovz$)%hohnpkp-34t4ks8qm59l1pszmn)#!$+rh3kcu1'
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '44.212.59.59']
 
 
 # Application definition
@@ -57,7 +57,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    # my dbs
     'accounts',
+    'student',
 
     'allauth',
     'allauth.account',

@@ -108,10 +108,3 @@ class OTP(models.Model):
         if not self.expires_at:
             self.expires_at = timezone.now() + timedelta(minutes=5)  # OTP valid for 5 minutes
         super().save(*args, **kwargs)
-
-
-class StudentSession(models.Model):
-    user = models.ForeignKey(
-        'accounts.CustomUser', on_delete=models.CASCADE, related_name='student_sessions')
-    session_id = models.CharField(max_length=255, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
