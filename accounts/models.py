@@ -13,9 +13,13 @@ def generate_short_uuid():
 
 
 class MemberTier(models.Model):
-    # Use small int for tier id like 1,2,3
-    id = models.PositiveSmallIntegerField(primary_key=True)
-    name = models.CharField(max_length=50, unique=True)
+    id = models.PositiveSmallIntegerField(
+        primary_key=True, verbose_name="會員等級編號")
+    name = models.CharField(max_length=50, unique=True, verbose_name="會員等級名稱")
+
+    class Meta:
+        verbose_name = "會員等級"
+        verbose_name_plural = "會員等級"
 
     def __str__(self):
         return f"{self.id} - {self.name}"
@@ -28,21 +32,18 @@ class CustomUserManager(BaseUserManager):
 
     def create_user(self, email=None, phone_number=None, password=None, **extra_fields):
         if not email and not phone_number:
-            raise ValueError('The Email or Phone number must be set')
+            raise ValueError('必須提供 Email 或電話號碼')
         if email:
             email = self.normalize_email(email)
             extra_fields['email'] = email
         if phone_number:
             extra_fields['phone_number'] = phone_number
         user = self.model(**extra_fields)
-        # Password is required for email or phone login
         if extra_fields.get('login_method') in ['email', 'phone']:
             if not password:
-                raise ValueError(
-                    'Password is required for email or phone login')
+                raise ValueError('使用 Email 或電話登入必須設定密碼')
             user.set_password(password)
         else:
-            # For social login, password may not be set
             user.set_unusable_password()
         user.save(using=self._db)
         return user
@@ -56,8 +57,8 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     LOGIN_METHOD_CHOICES = [
-        ('email', 'Email/Password'),
-        ('phone', 'Phone/Password'),
+        ('email', 'Email/密碼'),
+        ('phone', '電話/密碼'),
         ('google', 'Google'),
         ('apple', 'Apple'),
     ]
@@ -66,29 +67,38 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         unique=True,
         editable=False,
         null=False,
-        default=generate_short_uuid,  # function is now defined above
+        default=generate_short_uuid,
+        verbose_name="用戶ID"
     )
     member_tier = models.ForeignKey(
-        MemberTier, null=True, blank=True, on_delete=models.SET_NULL)
-    email = models.EmailField(unique=True, null=True, blank=True)
+        MemberTier, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="會員等級")
+    email = models.EmailField(unique=True, null=True,
+                              blank=True, verbose_name="電子郵件")
     phone_number = models.CharField(
-        max_length=20, unique=True, null=True, blank=True)
-    salutation = models.CharField(max_length=20, blank=True, null=True)
-    first_name = models.CharField(max_length=30, blank=True, null=True)
-    last_name = models.CharField(max_length=30, blank=True, null=True)
+        max_length=20, unique=True, null=True, blank=True, verbose_name="電話號碼")
+    salutation = models.CharField(
+        max_length=20, blank=True, null=True, verbose_name="稱謂")
+    first_name = models.CharField(
+        max_length=30, blank=True, null=True, verbose_name="名字")
+    last_name = models.CharField(
+        max_length=30, blank=True, null=True, verbose_name="姓氏")
     login_method = models.CharField(
-        max_length=10, choices=LOGIN_METHOD_CHOICES)
+        max_length=10, choices=LOGIN_METHOD_CHOICES, verbose_name="登入方式")
 
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True, verbose_name="是否啟用")
+    is_staff = models.BooleanField(default=False, verbose_name="是否管理員")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
+    class Meta:
+        verbose_name = "用戶"
+        verbose_name_plural = "用戶"
+
     def __str__(self):
-        return self.email or self.phone_number or 'User'
+        return self.email or self.phone_number or '用戶'
 
 
 def default_expiry():
@@ -96,10 +106,16 @@ def default_expiry():
 
 
 class OTP(models.Model):
-    user = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
-    code = models.CharField(max_length=6)
-    created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField(default=default_expiry)
+    user = models.ForeignKey('accounts.CustomUser',
+                             on_delete=models.CASCADE, verbose_name="用戶")
+    code = models.CharField(max_length=6, verbose_name="驗證碼")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+    expires_at = models.DateTimeField(
+        default=default_expiry, verbose_name="過期時間")
+
+    class Meta:
+        verbose_name = "一次性密碼"
+        verbose_name_plural = "一次性密碼"
 
     def is_expired(self):
         return timezone.now() > self.expires_at

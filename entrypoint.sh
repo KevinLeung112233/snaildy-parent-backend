@@ -1,26 +1,35 @@
 #!/bin/sh
 
-# Wait for database to be ready
-echo "Waiting for database..."
-python /app/db_checker.py
+# Exit immediately on error
+set -e
 
-# Apply database migrations
+# Wait for database
+echo "Waiting for database..."
+while ! nc -z $DATABASE_HOST $DATABASE_PORT; do
+  sleep 1
+done
+echo "Database ready!"
+
+# Apply migrations
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
+# Collect static files
+python manage.py collectstatic --noinput
 
-# Create cache table if using database cache
-# python manage.py createcachetable
-
-# Collect static files on every startup (development only)
-if [ "$DJANGO_DEBUG" = "True" ]; then
-    python manage.py collectstatic --noinput
+# Calculate workers based on available CPUs
+workers=$(( $(nproc) * 2 + 1 ))
+# Cap at 4 workers for memory efficiency
+if [ $workers -gt 4 ]; then
+    workers=4
 fi
+
 
 # Start Gunicorn
 exec gunicorn snaildy_parent_backend.wsgi:application \
     --bind 0.0.0.0:8000 \
-    --workers 3 \
+    --workers $(( $(nproc) * 2 + 1 )) \
     --access-logfile - \
     --error-logfile - \
-    --log-level debug
+    --log-level info \
+    --timeout 120

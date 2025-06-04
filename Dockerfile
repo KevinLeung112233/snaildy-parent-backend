@@ -1,41 +1,40 @@
-FROM python:3.12-slim
+FROM python:3.12-slim-bullseye  
+
+# Security optimizations
+RUN adduser --system --group --no-create-home django
+RUN mkdir /app && chown django:django /app
 
 # Prevent Python from buffering stdout/stderr
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONFAULTHANDLER=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    gcc \
     libpq-dev \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
-# Copy requirements
-COPY requirements.txt /app/
-
-# Install Python dependencies
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY . /app/
+COPY --chown=django:django . .
+
+RUN mkdir -p /app/staticfiles && chmod -R 777 /app/staticfiles
 
 # Make entrypoint executable
 RUN chmod +x /app/entrypoint.sh
 
-RUN python manage.py collectstatic --noinput -v 3
-
-# Collect static files
-RUN python manage.py collectstatic --noinput -v 3
-
-
-RUN chown -R 1000:1000 /app/staticfiles
-
-# RUN python manage.py makemigrations
-# RUN python manage.py migrate
-
-
+# Switch to non-root user
+USER django
 
 # Set entrypoint
 ENTRYPOINT ["/app/entrypoint.sh"]

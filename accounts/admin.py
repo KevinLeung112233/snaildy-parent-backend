@@ -6,7 +6,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django import forms
-from .models import CustomUser
+from django.apps import apps
 
 
 class CustomUserCreationForm(forms.ModelForm):
@@ -45,6 +45,9 @@ class CustomUserAdmin(BaseUserAdmin):
     )
 
 
+CustomUser._meta.verbose_name = "會員"
+CustomUser._meta.verbose_name_plural = "會員"
+
 admin.site.register(CustomUser, CustomUserAdmin)
 
 
@@ -52,3 +55,21 @@ admin.site.register(CustomUser, CustomUserAdmin)
 class MemberTierAdmin(admin.ModelAdmin):
     # List the fields you want to display in the admin list view
     list_display = ('id', 'name')
+
+
+HIDE_MODELS = [
+    ('account', 'EmailAddress'),  # django-allauth email addresses
+    ('auth', 'Group'),
+    ('socialaccount', 'SocialAccount'),
+    ('socialaccount', 'SocialApp'),
+    ('socialaccount', 'SocialToken'),
+]
+
+for app_label, model_name in HIDE_MODELS:
+    try:
+        model = apps.get_model(app_label, model_name)
+        admin.site.unregister(model)
+    except admin.sites.NotRegistered:
+        pass
+    except LookupError:
+        pass  # Model not found, ignore
