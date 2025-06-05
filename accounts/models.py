@@ -14,7 +14,7 @@ def generate_short_uuid():
 
 class MemberTier(models.Model):
     id = models.PositiveSmallIntegerField(
-        primary_key=True, verbose_name="會員等級編號")
+        primary_key=True, verbose_name="id")
     name = models.CharField(max_length=50, unique=True, verbose_name="會員等級名稱")
 
     class Meta:
@@ -68,7 +68,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         editable=False,
         null=False,
         default=generate_short_uuid,
-        verbose_name="用戶ID"
+        verbose_name="會員編號"
     )
     member_tier = models.ForeignKey(
         MemberTier, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="會員等級")
@@ -94,11 +94,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     class Meta:
-        verbose_name = "用戶"
-        verbose_name_plural = "用戶"
+        verbose_name = "會員"
+        verbose_name_plural = "會員"
 
     def __str__(self):
-        return self.email or self.phone_number or '用戶'
+        return self.email or self.phone_number or '會員'
 
 
 def default_expiry():
@@ -107,7 +107,7 @@ def default_expiry():
 
 class OTP(models.Model):
     user = models.ForeignKey('accounts.CustomUser',
-                             on_delete=models.CASCADE, verbose_name="用戶")
+                             on_delete=models.CASCADE, verbose_name="會員")
     code = models.CharField(max_length=6, verbose_name="驗證碼")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
     expires_at = models.DateTimeField(

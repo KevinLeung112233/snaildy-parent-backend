@@ -10,7 +10,7 @@ load_dotenv()
 # print("Database Name:", os.getenv("DATABASE_NAME"))
 # print("Database User:", os.getenv("DATABASE_USER"))
 
-DEBUG = False  # os.getenv('DEBUG', '0') == '1'
+DEBUG = True  # os.getenv('DEBUG', '0') == '1'
 
 # Security settings
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'livereload',
     'django.contrib.staticfiles',
 
     'rest_framework',
@@ -79,7 +80,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-
+    'livereload.middleware.LiveReloadScript',
 ]
 
 CSP_DEFAULT_SRC = ("'self'",)
@@ -146,7 +147,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

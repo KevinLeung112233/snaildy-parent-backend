@@ -1,0 +1,26 @@
+[
+  {
+    "model": "service.servicestatus",
+    "pk": 1,
+    "fields": {
+      "status": "available",
+      "display_name": "接受報名"
+    }
+  },
+  {
+    "model": "service.servicestatus",
+    "pk": 2,
+    "fields": {
+      "status": "finished",
+      "display_name": "已結束"
+    }
+  },
+  {
+    "model": "service.servicestatus",
+    "pk": 3,
+    "fields": {
+      "status": "cancelled",
+      "display_name": "已取消"
+    }
+  }
+]

@@ -69,7 +69,5 @@ for app_label, model_name in HIDE_MODELS:
     try:
         model = apps.get_model(app_label, model_name)
         admin.site.unregister(model)
-    except admin.sites.NotRegistered:
+    except (admin.sites.NotRegistered, LookupError) as e:
         pass
-    except LookupError:
-        pass  # Model not found, ignore

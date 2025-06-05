@@ -21,11 +21,14 @@ class Mentor(models.Model):
 
 
 class ServiceStatus(models.Model):
-    id = models.PositiveSmallIntegerField(primary_key=True, verbose_name="編號")
+    id = models.PositiveSmallIntegerField(primary_key=True)
     status = models.CharField(max_length=50, unique=True, verbose_name="狀態")
+    display_name = models.CharField(
+        max_length=50, unique=True, null=True, blank=True, verbose_name="Display Name"
+    )
 
     def __str__(self):
-        return self.status
+        return f"{self.status} - {self.display_name}"
 
 
 class Service(models.Model):
@@ -36,14 +39,22 @@ class Service(models.Model):
     location = models.CharField(max_length=255, verbose_name="地點")
     capacity = models.PositiveIntegerField(verbose_name="人數")
     organization = models.ForeignKey(
-        Organization, on_delete=models.PROTECT, verbose_name="機構")
-    mentor = models.ForeignKey(
-        Mentor, on_delete=models.PROTECT, verbose_name="導師")
-    need_timeslot = models.BooleanField(default=False, verbose_name="需要時段")
+        Organization, on_delete=models.PROTECT, verbose_name="機構"
+    )
+    mentors = models.ManyToManyField(Mentor, blank=True, verbose_name="導師")
     status = models.ForeignKey(
-        ServiceStatus, on_delete=models.PROTECT, verbose_name="狀態")
+        ServiceStatus, on_delete=models.PROTECT, verbose_name="狀態"
+    )
     promote_label = models.CharField(
         max_length=255, blank=True, verbose_name="推廣標籤")
+
+    expiry_date = models.DateField(null=True, blank=True, verbose_name="截止日期")
+    period_start = models.DateField(
+        null=True, blank=True, verbose_name="活動開始日期")
+    period_end = models.DateField(null=True, blank=True, verbose_name="活動結束日期")
+
+    min_selection = models.PositiveIntegerField(default=1, verbose_name="最少選擇")
+    max_selection = models.PositiveIntegerField(default=1, verbose_name="最多選擇")
 
     def __str__(self):
         return self.name
@@ -57,11 +68,16 @@ class TimeSlot(models.Model):
     ]
 
     service = models.ForeignKey(
-        Service, related_name='time_slots', on_delete=models.CASCADE, verbose_name="服務")
+        Service,
+        related_name='time_slots',
+        on_delete=models.CASCADE,
+        verbose_name="服務",
+    )
     start_datetime = models.DateTimeField(verbose_name="開始時間")
     capacity = models.PositiveIntegerField(verbose_name="人數")
     status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default='available', verbose_name="狀態")
+        max_length=20, choices=STATUS_CHOICES, default='available', verbose_name="狀態"
+    )
     current_headcount = models.PositiveIntegerField(
         default=0, verbose_name="現時人數")
 
@@ -73,12 +89,3 @@ class TimeSlot(models.Model):
 
     def __str__(self):
         return f"{self.service.name} - {self.start_datetime.strftime('%Y-%m-%d %H:%M')}"
-
-    def increment_headcount(self):
-        if self.current_headcount < self.capacity:
-            self.current_headcount += 1
-            if self.current_headcount >= self.capacity:
-                self.status = 'full'
-            self.save()
-        else:
-            raise ValueError("TimeSlot is already full")

@@ -1,0 +1,23 @@
+[
+  {
+    "model": "accounts.membertier",
+    "pk": 1,
+    "fields": {
+      "name": "Normal"
+    }
+  },
+  {
+    "model": "accounts.membertier",
+    "pk": 2,
+    "fields": {
+      "name": "Paid"
+    }
+  },
+  {
+    "model": "accounts.membertier",
+    "pk": 3,
+    "fields": {
+      "name": "Rich"
+    }
+  }
+]

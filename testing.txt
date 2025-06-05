@@ -47,3 +47,49 @@ curl -X POST http://127.0.0.1:8000/api/student/bind-student/ \
 curl -X GET http://127.0.0.1:8000/api/student/get-all-binded-student-tokens/ \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5Njk5MjUyLCJpYXQiOjE3NDg4MzUyNTIsImp0aSI6IjY5ZTllYmMwMmRkNjRmZWZiYWUyZDM0NmMwYjc3N2FhIiwidXNlcl9pZCI6M30.8h37nMPeaI3RzBaoxCKYeFfWNmHxDaUuyXbkeb7AvYU" \
 -H "Content-Type: application/json" \
+
+
+
+
+docker start snaildy_parent_backend-web-1
+docker start snaildy_parent_backend-db-1
+
+docker exec -t snaildy_parent_backend-db-1 pg_dump -U kevinleung snaildy-parent-db > backup_$(date +%F_%T).sql
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc" -delete
+
+docker-compose exec web python manage.py makemigrations
+docker-compose exec web python manage.py migrate
+
+docker exec -it snaildy_parent_backend-db-1 psql -U kevinleung -d snaildy_parent_db
+ALTER TABLE service_service
+ADD COLUMN type varchar(20) NOT NULL DEFAULT 'one-time';
+
+docker restart snaildy_parent_backend-db-1
+docker restart snaildy_parent_backend-web-1
+
+docker exec -it snaildy_parent_backend-web-1 python manage.py makemigrations
+docker exec -it snaildy_parent_backend-web-1 python manage.py migrate
+
+
+# Backup (optional)
+docker exec -t snaildy_parent_backend-db-1 pg_dump -U postgres snaildy-parent-db > backup.sql
+
+# Delete migration files
+find . -path "*/migrations/*.py" ! -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc" -delete
+
+# Drop and recreate schema
+docker exec -it snaildy_parent_backend-db-1 psql -U postgres -d snaildy-parent-db
+# Inside psql:
+# DROP SCHEMA public CASCADE;
+# CREATE SCHEMA public;
+# GRANT ALL ON SCHEMA public TO postgres;
+# \q
+
+# Create migrations and migrate
+docker exec -it snaildy_parent_backend-web-1 python manage.py makemigrations
+docker exec -it snaildy_parent_backend-web-1 python manage.py migrate
+
+# Restart Django app
+docker restart snaildy_parent_backend-web-1
