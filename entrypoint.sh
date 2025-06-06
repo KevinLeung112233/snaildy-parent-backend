@@ -14,7 +14,7 @@ echo "Database ready!"
 find . -name "*.json" -path "*/fixtures/*" -exec python manage.py loaddata {} \;
 
 # Apply migrations
-python manage.py makemigrations --noinput
+# python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
 # Collect static files

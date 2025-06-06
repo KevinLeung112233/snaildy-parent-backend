@@ -65,6 +65,10 @@ class TimeSlot(models.Model):
         ('available', '可預約'),
         ('unavailable', '不可預約'),
         ('full', '已額滿'),
+        ('in-progress', '進行中'),
+        ('finished', '已完結'),
+        ('cancelled', '已取消'),
+        ('postponed', '延期'),
     ]
 
     service = models.ForeignKey(

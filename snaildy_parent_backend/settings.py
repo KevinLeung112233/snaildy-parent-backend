@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'booking',
     'payment',
     'service',
+    'activity_record',
 
     'allauth',
     'allauth.account',
