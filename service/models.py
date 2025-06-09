@@ -54,7 +54,7 @@ class Service(models.Model):
     location = models.CharField(max_length=255, verbose_name="地點")
     type = models.ForeignKey(
         ServiceType, on_delete=models.PROTECT, verbose_name="類型", null=True, blank=True, )
-    capacity = models.PositiveIntegerField(verbose_name="人數")
+    capacity = models.TextField(blank=True, verbose_name="人數 (e.g. 12人)")
     organization = models.ForeignKey(
         Organization, on_delete=models.PROTECT, verbose_name="機構"
     )

@@ -52,19 +52,19 @@ class ServiceStatusAdmin(admin.ModelAdmin):
     display_name_cn.short_description = "服務狀態"
 
 
-class TimeSlotInlineForm(forms.ModelForm):
-    class Meta:
-        model = TimeSlot
-        fields = '__all__'
-        widgets = {
-            'start_datetime': forms.TextInput(attrs={'class': 'datetimepicker'}),
-            'end_datetime': forms.TextInput(attrs={'class': 'datetimepicker'}),
-        }
+# class TimeSlotInlineForm(forms.ModelForm):
+#     class Meta:
+#         model = TimeSlot
+#         fields = '__all__'
+#         widgets = {
+#             'start_datetime': forms.TextInput(attrs={'class': 'datetimepicker'}),
+#             'end_datetime': forms.TextInput(attrs={'class': 'datetimepicker'}),
+#         }
 
 
 class TimeSlotInline(admin.TabularInline):
     model = TimeSlot
-    form = TimeSlotInlineForm
+    # form = TimeSlotInlineForm
     extra = 1
     fields = (
         'start_datetime',
@@ -75,21 +75,39 @@ class TimeSlotInline(admin.TabularInline):
     )
     classes = ['collapse', 'timeslot-inline']
 
+    # class Media:
+    #     css = {
+    #         'all': ('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',)
+    #     }
+    #     js = (
+    #         'https://cdn.jsdelivr.net/npm/flatpickr',
+    #         'https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.js',
+    #         '/static/service/js/init_flatpickr.js',  # your custom JS to init flatpickr
+    #     )
+
+
+class CustomServiceAdmin(admin.ModelAdmin):
     class Media:
-        css = {
-            'all': ('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',)
-        }
-        js = (
-            'https://cdn.jsdelivr.net/npm/flatpickr',
-            'https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.js',
-            '/static/admin/js/init_flatpickr.js',  # your custom JS to init flatpickr
-        )
+        js = ('service/js/remove_autofocus.js',)
 
 
 @admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name_cn', 'mentors_cn', 'status_display_name_cn')
+class ServiceAdmin(CustomServiceAdmin):
+    list_display = ('id', 'name_cn', 'status_display_name_cn', 'price', 'expiry_date',
+                    'period_start', 'period_end', 'mentors_cn', 'organization')
     autocomplete_fields = ('mentors',)
+    list_filter = (
+        'status',
+    )
+    ordering = ('id', 'expiry_date', 'period_start', 'period_end',
+                'mentors', 'organization', 'name')  # <-- Add this line
+
+    search_fields = [
+        'id',
+        'name',  # search by service name
+        'organization__name',  # search by related organization name
+        'mentors__name',  # search by related mentors' names (ManyToMany)
+    ]
     inlines = [TimeSlotInline]
 
     def name_cn(self, obj):
