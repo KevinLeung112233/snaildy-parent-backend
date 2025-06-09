@@ -29,7 +29,8 @@ class CustomUserAdmin(BaseUserAdmin):
     list_display = ('user_id', 'email', 'phone_number',
                     'is_staff', 'is_superuser')
     list_filter = ('is_staff', 'is_superuser', 'is_active')
-    search_fields = ('user_id', 'email', 'phone_number')
+    search_fields = ('user_id', 'email', 'phone_number',
+                     'first_name', 'last_name')
     ordering = ('email',)
     fieldsets = (
         (None, {'fields': ('email', 'phone_number', 'password', 'login_method')}),

@@ -85,5 +85,5 @@ class StudentSession(models.Model):
         return f"Session {self.session_id} for user {self.user}"
 
     class Meta:
-        verbose_name = "學生會話"
-        verbose_name_plural = "學生會話"
+        verbose_name = "Student Session"
+        verbose_name_plural = "Student Session"

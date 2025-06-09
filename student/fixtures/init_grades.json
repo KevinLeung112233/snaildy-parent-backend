@@ -1,0 +1,86 @@
+[
+    {
+        "model": "student.grade",
+        "pk": "primary_1",
+        "fields": {
+            "name": "小一"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "primary_2",
+        "fields": {
+            "name": "小二"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "primary_3",
+        "fields": {
+            "name": "小三"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "primary_4",
+        "fields": {
+            "name": "小四"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "primary_5",
+        "fields": {
+            "name": "小五"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "primary_6",
+        "fields": {
+            "name": "小六"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "secondary_1",
+        "fields": {
+            "name": "中一"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "secondary_2",
+        "fields": {
+            "name": "中二"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "secondary_3",
+        "fields": {
+            "name": "中三"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "secondary_4",
+        "fields": {
+            "name": "中四"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "secondary_5",
+        "fields": {
+            "name": "中五"
+        }
+    },
+    {
+        "model": "student.grade",
+        "pk": "secondary_6",
+        "fields": {
+            "name": "中六"
+        }
+    }
+]
