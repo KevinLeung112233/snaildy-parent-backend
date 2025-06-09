@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'payment',
     'service',
     'activity_record',
+    'school',
 
     'allauth',
     'allauth.account',
