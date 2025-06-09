@@ -1,47 +1,48 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import CustomUser, MemberTier
-from .forms import CustomUserCreationForm, CustomUserChangeForm
-
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django import forms
 from django.apps import apps
 
-
-class CustomUserCreationForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ('email', 'phone_number', 'login_method')
+from .models import CustomUser, MemberTier
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
-class CustomUserChangeForm(forms.ModelForm):
-    class Meta:
-        model = CustomUser
-        fields = ('email', 'phone_number', 'login_method',
-                  'is_active', 'is_staff', 'is_superuser')
+# class CustomUserCreationForm(forms.ModelForm):
+#     class Meta:
+#         model = CustomUser
+#         fields = ('email', 'phone_number', 'login_method')
+
+
+# class CustomUserChangeForm(forms.ModelForm):
+#     class Meta:
+#         model = CustomUser
+#         fields = ('email', 'phone_number', 'login_method',
+#                   'is_active', 'is_staff', 'is_mentor', 'is_superuser')
 
 
 class CustomUserAdmin(BaseUserAdmin):
+    # Use the form with password1 and password2 here
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
+
     list_display = ('user_id', 'email', 'phone_number',
-                    'is_staff', 'is_superuser')
-    list_filter = ('is_staff', 'is_superuser', 'is_active')
+                    'is_staff', 'is_mentor', 'is_superuser')
+    list_filter = ('is_staff', 'is_mentor', 'is_superuser', 'is_active')
     search_fields = ('user_id', 'email', 'phone_number',
                      'first_name', 'last_name')
     ordering = ('email',)
+
     fieldsets = (
         (None, {'fields': ('email', 'phone_number', 'password', 'login_method')}),
-        ('Permissions', {'fields': ('is_staff', 'is_superuser',
-         'is_active', 'groups', 'user_permissions')}),
+        ('Permissions', {'fields': ('is_staff', 'is_mentor', 'is_superuser',
+                                    'is_active', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login',)}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'phone_number', 'login_method', 'password1', 'password2', 'is_staff', 'is_superuser', 'is_active')}
+            'fields': ('email', 'phone_number', 'login_method', 'password1', 'password2', 'is_staff', 'is_mentor', 'is_superuser', 'is_active')}
          ),
     )
 

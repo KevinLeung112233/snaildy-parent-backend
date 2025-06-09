@@ -56,6 +56,13 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    def get_full_name(self):
+        full_name = f"{self.first_name} {self.last_name}".strip()
+        return full_name if full_name else self.email  # fallback to email or username
+
+    def get_short_name(self):
+        return self.first_name or self.email
+
     LOGIN_METHOD_CHOICES = [
         ('email', 'Email/密碼'),
         ('phone', '電話/密碼'),
@@ -87,6 +94,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True, verbose_name="是否啟用")
     is_staff = models.BooleanField(default=False, verbose_name="是否管理員")
+    is_mentor = models.BooleanField(default=False, verbose_name="是否導師")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

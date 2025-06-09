@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'service',
     'activity_record',
     'school',
+    'mentor',
 
     'allauth',
     'allauth.account',

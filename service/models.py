@@ -17,19 +17,6 @@ class Organization(models.Model):
         verbose_name_plural = "機構"
 
 
-class Mentor(models.Model):
-    name = models.CharField(max_length=255, verbose_name="導師姓名")
-    email = models.EmailField(verbose_name="電子郵件")
-    phone = models.CharField(max_length=20, blank=True, verbose_name="電話")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "導師"
-        verbose_name_plural = "導師"
-
-
 class ServiceType(models.Model):
     name = models.CharField(max_length=100, verbose_name="服務類型名稱")
 
@@ -75,7 +62,8 @@ class Service(models.Model):
     organization = models.ForeignKey(
         Organization, on_delete=models.PROTECT, verbose_name="機構"
     )
-    mentors = models.ManyToManyField(Mentor, blank=True, verbose_name="導師")
+    mentors = models.ManyToManyField(
+        'mentor.Mentor', blank=True, verbose_name="導師")  # Changed here
     status = models.ForeignKey(
         ServiceStatus, on_delete=models.PROTECT, verbose_name="狀態"
     )

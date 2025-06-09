@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Organization, Mentor, ServiceStatus, Service, TimeSlot, ServiceType
+from .models import Organization, ServiceStatus, Service, TimeSlot, ServiceType
 # from rangefilter.filters import DateRangeFilter
 from django import forms
 
@@ -23,24 +23,6 @@ class OrganizationAdmin(admin.ModelAdmin):
     def contact_cn(self, obj):
         return obj.contact
     contact_cn.short_description = "聯絡人"
-
-
-@admin.register(Mentor)
-class MentorAdmin(admin.ModelAdmin):
-    search_fields = ('name', 'email')
-    list_display = ('name_cn', 'email_cn', 'phone_cn')
-
-    def name_cn(self, obj):
-        return obj.name
-    name_cn.short_description = "導師名稱"
-
-    def email_cn(self, obj):
-        return obj.email
-    email_cn.short_description = "電子郵件"
-
-    def phone_cn(self, obj):
-        return obj.phone
-    phone_cn.short_description = "電話"
 
 
 @admin.register(ServiceStatus)
@@ -92,22 +74,26 @@ class CustomServiceAdmin(admin.ModelAdmin):
 
 
 @admin.register(Service)
-class ServiceAdmin(CustomServiceAdmin):
-    list_display = ('id', 'name_cn', 'status_display_name_cn', 'price', 'expiry_date',
-                    'period_start', 'period_end', 'mentors_cn', 'organization')
-    autocomplete_fields = ('mentors',)
-    list_filter = (
-        'status',
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'name_cn', 'status_display_name_cn', 'price', 'expiry_date',
+        'period_start', 'period_end', 'mentors_cn', 'organization'
     )
-    ordering = ('id', 'expiry_date', 'period_start', 'period_end',
-                'mentors', 'organization', 'name')  # <-- Add this line
+    autocomplete_fields = ('mentors',)  # works without importing Mentor
+    list_filter = ('status',)
+    ordering = (
+        'id', 'expiry_date', 'period_start', 'period_end',
+        'mentors', 'organization', 'name'
+    )
 
     search_fields = [
         'id',
-        'name',  # search by service name
-        'organization__name',  # search by related organization name
-        'mentors__name',  # search by related mentors' names (ManyToMany)
+        'name',
+        'organization__name',
+        'mentors__name',
     ]
+
+    # Assuming you have TimeSlotInline defined somewhere
     inlines = [TimeSlotInline]
 
     def name_cn(self, obj):
@@ -120,19 +106,16 @@ class ServiceAdmin(CustomServiceAdmin):
 
     def status_display_name_cn(self, obj):
         return obj.status.display_name if obj.status else "-"
-    status_display_name_cn.short_description = "Stauts"
+    status_display_name_cn.short_description = "狀態"
 
     def get_fields(self, request, obj=None):
-        fields = [
-            'expiry_date', 'name', 'detail', 'price', 'deposit_percentage', 'price_desc', 'location', 'type', 'capacity',
-            'organization', 'mentors', 'status', 'promote_label',
-            'period_start', 'period_end',
-            'free_accompanying_children',
-            'extra_child_fee',
-            'min_selection',
-            'max_selection',
+        return [
+            'expiry_date', 'name', 'detail', 'price', 'deposit_percentage', 'price_desc',
+            'location', 'type', 'capacity', 'organization', 'mentors', 'status',
+            'promote_label', 'period_start', 'period_end',
+            'free_accompanying_children', 'extra_child_fee',
+            'min_selection', 'max_selection',
         ]
-        return fields
 
 
 @admin.register(ServiceType)
