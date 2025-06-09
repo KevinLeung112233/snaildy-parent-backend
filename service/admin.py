@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Organization, Mentor, ServiceStatus, Service, TimeSlot
+from .models import Organization, Mentor, ServiceStatus, Service, TimeSlot, ServiceType
+# from rangefilter.filters import DateRangeFilter
+from django import forms
 
 
 @admin.register(Organization)
@@ -50,24 +52,45 @@ class ServiceStatusAdmin(admin.ModelAdmin):
     display_name_cn.short_description = "服務狀態"
 
 
+class TimeSlotInlineForm(forms.ModelForm):
+    class Meta:
+        model = TimeSlot
+        fields = '__all__'
+        widgets = {
+            'start_datetime': forms.TextInput(attrs={'class': 'datetimepicker'}),
+            'end_datetime': forms.TextInput(attrs={'class': 'datetimepicker'}),
+        }
+
+
 class TimeSlotInline(admin.TabularInline):
     model = TimeSlot
+    form = TimeSlotInlineForm
     extra = 1
     fields = (
         'start_datetime',
+        'end_datetime',
         'capacity',
         'status',
         'current_headcount',
     )
-    classes = ['timeslot-inline']
-    readonly_fields = ('current_headcount',)
+    classes = ['collapse', 'timeslot-inline']
+
+    class Media:
+        css = {
+            'all': ('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',)
+        }
+        js = (
+            'https://cdn.jsdelivr.net/npm/flatpickr',
+            'https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.js',
+            '/static/admin/js/init_flatpickr.js',  # your custom JS to init flatpickr
+        )
 
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name_cn', 'mentors_cn', 'status_display_name_cn')
     autocomplete_fields = ('mentors',)
-    inlines = [TimeSlotInline]  # Always show inline
+    inlines = [TimeSlotInline]
 
     def name_cn(self, obj):
         return obj.name
@@ -83,10 +106,20 @@ class ServiceAdmin(admin.ModelAdmin):
 
     def get_fields(self, request, obj=None):
         fields = [
-            'expiry_date', 'name', 'detail', 'price', 'price_desc', 'location', 'capacity',
+            'expiry_date', 'name', 'detail', 'price', 'deposit_percentage', 'price_desc', 'location', 'type', 'capacity',
             'organization', 'mentors', 'status', 'promote_label',
             'period_start', 'period_end',
+            'free_accompanying_children',
+            'extra_child_fee',
             'min_selection',
             'max_selection',
         ]
         return fields
+
+
+@admin.register(ServiceType)
+class ServiceTypeAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+    def __str__(self):
+        return self.name

@@ -91,7 +91,19 @@ docker exec -it snaildy_parent_backend-db-1 psql -U postgres -d snaildy-parent-d
 docker exec -it snaildy_parent_backend-web-1 python manage.py makemigrations student
 docker exec -it snaildy_parent_backend-web-1 python manage.py migrate
 python3 manage.py migrate student
-python3 manage.py migrate services
+python3 manage.py migrate service
 python3 manage.py migrate activity_record
 # Restart Django app
 docker restart snaildy_parent_backend-web-1
+
+
+
+docker-compose down -v --remove-orphans
+
+docker volume prune -f
+
+docker-compose up -d --build
+
+docker-compose exec web python manage.py migrate
+
+docker-compose exec web python manage.py createsuperuser
