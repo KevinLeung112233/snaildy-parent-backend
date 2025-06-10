@@ -91,8 +91,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         max_length=30, blank=True, null=True, verbose_name="姓氏")
     login_method = models.CharField(
         max_length=10, choices=LOGIN_METHOD_CHOICES, verbose_name="登入方式")
+    date_joined = models.DateTimeField(
+        default=timezone.now, verbose_name="加入日期")
 
-    is_active = models.BooleanField(default=True, verbose_name="是否啟用")
+    is_active = models.BooleanField(default=True, verbose_name="Activated")
     is_staff = models.BooleanField(default=False, verbose_name="是否管理員")
     is_mentor = models.BooleanField(default=False, verbose_name="是否導師")
 

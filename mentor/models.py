@@ -10,9 +10,11 @@ class Mentor(models.Model):
         verbose_name="使用者",
         null=True
     )
-    # phone field removed, use user.phone_number instead
 
     def __str__(self):
+        return self.user.get_full_name()
+
+    def get_full_name(self):
         return self.user.get_full_name()
 
     class Meta:

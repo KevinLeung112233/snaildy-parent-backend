@@ -101,7 +101,7 @@ class ServiceAdmin(admin.ModelAdmin):
     name_cn.short_description = "名稱"
 
     def mentors_cn(self, obj):
-        return ", ".join(mentor.name for mentor in obj.mentors.all())
+        return ", ".join(mentor.get_full_name() for mentor in obj.mentors.all())
     mentors_cn.short_description = "導師"
 
     def status_display_name_cn(self, obj):

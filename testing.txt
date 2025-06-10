@@ -107,3 +107,7 @@ docker-compose up -d --build
 docker-compose exec web python manage.py migrate
 
 docker-compose exec web python manage.py createsuperuser
+
+#maintenance_mode
+docker-compose exec web python manage.py maintenance_mode on
+docker-compose exec web python manage.py maintenance_mode off

@@ -63,7 +63,7 @@ class Service(models.Model):
         Organization, on_delete=models.PROTECT, verbose_name="機構"
     )
     mentors = models.ManyToManyField(
-        'mentor.Mentor', blank=True, verbose_name="導師")  # Changed here
+        'mentor.Mentor', blank=True, verbose_name="導師")
     status = models.ForeignKey(
         ServiceStatus, on_delete=models.PROTECT, verbose_name="狀態"
     )

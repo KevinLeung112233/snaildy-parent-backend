@@ -4,6 +4,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import JsonResponse
+from django.contrib.admin.views.decorators import staff_member_required
+from booking.admin import get_timeslots  # import your view
 
 
 def static_files_debug(request):
@@ -19,6 +21,8 @@ def static_files_debug(request):
 urlpatterns = [
     # Grappelli URLS must come BEFORE admin URLs
     path('grappelli/', include('grappelli.urls')),
+    path('admin/booking/get-timeslots/',
+         staff_member_required(get_timeslots), name='get-timeslots'),
     path('admin/', admin.site.urls),
 
     # Your other URL patterns

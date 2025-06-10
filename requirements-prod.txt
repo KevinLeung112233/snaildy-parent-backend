@@ -27,3 +27,4 @@ cryptography
 django-livereload-server
 django-ckeditor-5
 django-admin-rangefilter
+django-maintenance-mode

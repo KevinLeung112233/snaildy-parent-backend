@@ -25,19 +25,22 @@ class CustomUserAdmin(BaseUserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
+    readonly_fields = ('user_id',)
 
-    list_display = ('user_id', 'email', 'phone_number',
-                    'is_staff', 'is_mentor', 'is_superuser')
-    list_filter = ('is_staff', 'is_mentor', 'is_superuser', 'is_active')
-    search_fields = ('user_id', 'email', 'phone_number',
+    list_display = ('user_id', 'first_name', 'last_name', 'email', 'phone_number', 'date_joined', 'is_active',
+                    'is_staff', 'is_mentor')
+    list_filter = ('is_staff', 'is_mentor', 'first_name',
+                   'last_name', 'is_superuser', 'is_active')
+    search_fields = ('user_id', 'email', 'first_name', 'last_name', 'phone_number',
                      'first_name', 'last_name')
-    ordering = ('email',)
+    ordering = ('email', 'first_name', 'last_name', 'date_joined', 'is_active')
 
     fieldsets = (
-        (None, {'fields': ('email', 'phone_number', 'password', 'login_method')}),
+        (None, {'fields': ('user_id', 'first_name', 'last_name', 'email',
+         'phone_number', 'password', 'login_method')}),
         ('Permissions', {'fields': ('is_staff', 'is_mentor', 'is_superuser',
-                                    'is_active', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login',)}),
+                                    'is_active',)}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
         (None, {

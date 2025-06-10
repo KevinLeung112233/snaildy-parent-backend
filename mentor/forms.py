@@ -24,3 +24,27 @@ class MentorUserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class MentorPasswordResetForm(forms.Form):
+    password1 = forms.CharField(
+        label="New password",
+        widget=forms.PasswordInput,
+        strip=False,
+        help_text="Enter the new password."
+    )
+    password2 = forms.CharField(
+        label="Confirm new password",
+        widget=forms.PasswordInput,
+        strip=False,
+        help_text="Enter the same password again for confirmation."
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get("password1")
+        p2 = cleaned_data.get("password2")
+        if p1 and p2 and p1 != p2:
+            raise forms.ValidationError(
+                "The two password fields didn’t match.")
+        return cleaned_data

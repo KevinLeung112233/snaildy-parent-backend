@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.apple',
     'django.contrib.admin',
+    'maintenance_mode'
 ]
 
 MIDDLEWARE = [
@@ -86,6 +87,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'livereload.middleware.LiveReloadScript',
+    'maintenance_mode.middleware.MaintenanceModeMiddleware'
 ]
 
 CSP_DEFAULT_SRC = ("'self'",)
@@ -217,7 +219,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Hong_Kong'
 
 USE_I18N = True
 
@@ -324,3 +326,14 @@ CKEDITOR_5_CONFIGS = {
         }
     }
 }
+
+# Maintenance config
+MAINTENANCE_MODE = None  # To enable maintenance mode. Set to False to disable.
+# If True, staff users are not affected by maintenance mode.
+MAINTENANCE_MODE_IGNORE_STAFF = True
+# If True, superusers are not affected.
+MAINTENANCE_MODE_IGNORE_SUPERUSER = True
+# URLs that are not affected by maintenance mode. Use regex.
+MAINTENANCE_MODE_IGNORE_URLS = [r'^/admin/']
+# Template to display during maintenance.
+MAINTENANCE_MODE_TEMPLATE = '503.html'
