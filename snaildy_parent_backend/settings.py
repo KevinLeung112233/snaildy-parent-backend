@@ -10,7 +10,7 @@ load_dotenv()
 # print("Database Name:", os.getenv("DATABASE_NAME"))
 # print("Database User:", os.getenv("DATABASE_USER"))
 
-DEBUG = True  # os.getenv('DEBUG', '0') == '1'
+DEBUG = os.getenv('DEBUG', '0') == '1'
 
 # Security settings
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -24,15 +24,14 @@ CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_FINDERS = [
     # 'snaildy_parent_backend.static_finders.GrappelliFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
 ]
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 GRAPPELLI_ADMIN_TITLE = 'Snaildy Parent Portal'
 
@@ -176,11 +175,11 @@ WSGI_APPLICATION = 'snaildy_parent_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'snaildy_parent_db',
-        'USER': 'kevinleung',
-        'PASSWORD': 'Snaildy2025!D',
-        'HOST': 'db',
-        'PORT': '5432',
+        'NAME': os.getenv('DATABASE_NAME', ),
+        'USER': os.getenv('DATABASE_USER', ),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', ),
+        'HOST': os.getenv('DATABASE_HOST', 'db'),
+        'PORT': os.getenv('DATABASE_PORT', '5432'),
         'CONN_MAX_AGE': 600,  # Persistent connections
     }
 }
@@ -224,15 +223,6 @@ TIME_ZONE = 'Asia/Hong_Kong'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = '/static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
