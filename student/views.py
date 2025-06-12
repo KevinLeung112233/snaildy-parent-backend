@@ -4,10 +4,22 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.core.cache import cache
+from .serializers import StudentCreateSerializer
+from rest_framework import generics, permissions
 
 from .models import StudentSession
 
 
+class StudentCreateAPIView(generics.CreateAPIView):
+    serializer_class = StudentCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        # Set the parent to the currently authenticated user
+        serializer.save(parent=self.request.user)
+
+
+# 校本 student acc
 class BindStudentView(generics.GenericAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]

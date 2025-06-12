@@ -27,6 +27,8 @@ def send_otp_email(user, otp):
     """
     Send OTP code to user's email.
     """
+    print(f"Sending OTP {otp} to email: {user.email}")
+
     send_mail(
         subject='Your OTP Code',
         message=f'Your OTP code is {otp}',

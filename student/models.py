@@ -22,12 +22,13 @@ class Student(models.Model):
         primary_key=True,
         default=uuid.uuid4,
         editable=False,
+        unique=True,
         verbose_name="編號"
     )
     strn = models.CharField(max_length=255, blank=True,
-                            null=True, verbose_name="STRN")
+                            null=True, verbose_name="STRN", unique=True)
     id_no = models.CharField(max_length=255, blank=True,
-                             null=True, verbose_name="身份證明")
+                             null=True, verbose_name="HKID", unique=True)
 
     chinese_name = models.CharField(max_length=255, verbose_name="中文姓名")
     english_name = models.CharField(max_length=255, verbose_name="英文姓名")
@@ -35,15 +36,18 @@ class Student(models.Model):
         'school.School',
         on_delete=models.PROTECT,
         related_name="students",
-        verbose_name="學校"
+        verbose_name="學校",
+        blank=True
     )
     grade = models.ForeignKey(
         Grade,
         on_delete=models.PROTECT,
         related_name="students",
-        verbose_name="就讀年級"
+        verbose_name="就讀年級",
+        blank=True
     )
-    date_of_birth = models.DateField(verbose_name="出生日期")
+    date_of_birth = models.DateField(verbose_name="出生日期",
+                                     blank=True)
 
     # Add reference to custom user
     parent = models.ForeignKey(
@@ -51,8 +55,8 @@ class Student(models.Model):
         on_delete=models.CASCADE,
         related_name='students',
         verbose_name="家長",
-        null=True,  # optional, set to False if mandatory
-        blank=True
+        blank=True,
+        null=True
     )
 
     def __str__(self):
@@ -78,7 +82,7 @@ class StudentSession(models.Model):
         verbose_name="學生"
     )
     session_id = models.CharField(
-        max_length=255, unique=True, verbose_name="會話編號")
+        max_length=255, unique=True, verbose_name="SessionId")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
 
     def __str__(self):

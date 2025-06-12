@@ -5,35 +5,60 @@ from django.apps import apps
 
 from .models import CustomUser, MemberTier
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+from student.models import Student  # Replace 'student' with your actual app name
+from django.contrib.admin import SimpleListFilter
 
 
-# class CustomUserCreationForm(forms.ModelForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ('email', 'phone_number', 'login_method')
+class HasChildFilter(SimpleListFilter):
+    title = 'Has Child'
+    parameter_name = 'has_child'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('yes', 'Yes'),
+            ('no', 'No'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.filter(students__isnull=False).distinct()
+        if self.value() == 'no':
+            return queryset.filter(students__isnull=True)
+        return queryset
 
 
-# class CustomUserChangeForm(forms.ModelForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ('email', 'phone_number', 'login_method',
-#                   'is_active', 'is_staff', 'is_mentor', 'is_superuser')
+class StudentInline(admin.TabularInline):
+    model = Student
+    extra = 0  # No empty forms by default
+    readonly_fields = ('chinese_name', 'english_name',
+                       'grade', 'school')  # Customize as needed
+    can_delete = False  # Optional: prevent deletion through parent admin
+    show_change_link = True  # Add link to individual student admin
+
+    def has_add_permission(self, request, obj=None):
+        return False  # Optional: disable adding new students here
 
 
 class CustomUserAdmin(BaseUserAdmin):
+
     # Use the form with password1 and password2 here
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
     readonly_fields = ('user_id',)
+    inlines = [StudentInline]
 
     list_display = ('user_id', 'first_name', 'last_name', 'email', 'phone_number', 'date_joined', 'is_active',
-                    'is_staff', 'is_mentor')
+                    'is_staff', 'is_mentor', 'has_child')
     list_filter = ('is_staff', 'is_mentor', 'first_name',
-                   'last_name', 'is_superuser', 'is_active')
-    search_fields = ('user_id', 'email', 'first_name', 'last_name', 'phone_number',
-                     'first_name', 'last_name')
+                   'last_name', 'is_superuser', 'is_active', HasChildFilter)
+    search_fields = ('user_id', 'email', 'first_name',
+                     'last_name', 'phone_number',)
     ordering = ('email', 'first_name', 'last_name', 'date_joined', 'is_active')
+
+    @admin.display(boolean=True, description='Has Child')
+    def has_child(self, obj):
+        return obj.students.exists()
 
     fieldsets = (
         (None, {'fields': ('user_id', 'first_name', 'last_name', 'email',

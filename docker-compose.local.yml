@@ -33,7 +33,9 @@ services:
     env_file:
       - .env-staging
     volumes:
+      - .:/app
       - static_volume:/app/staticfiles
+    working_dir: /app
     expose:
       - 8000
     depends_on:
