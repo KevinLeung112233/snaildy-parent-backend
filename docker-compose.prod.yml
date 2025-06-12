@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  web:
+    env_file:
+      - .env-prod
+    ports:
+      - "80:8000"        # Production web exposed on standard HTTP port 80
+    restart: always
+
+  nginx:
+    ports:
+      - "443:443"        # Production nginx standard HTTPS port
+      - "80:80"
+    restart: always
+
+  db:
+    env_file:
+      - .env-prod
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
+
+  redis:
+    volumes:
+      - redisdata_prod:/data
+
+volumes:
+  pgdata_prod:
+  redisdata_prod:

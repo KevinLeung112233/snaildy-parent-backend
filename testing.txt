@@ -111,3 +111,11 @@ docker-compose exec web python manage.py createsuperuser
 #maintenance_mode
 docker-compose exec web python manage.py maintenance_mode on
 docker-compose exec web python manage.py maintenance_mode off
+
+
+#run on aws
+docker-compose --env-file .env-staging -p staging -f docker-compose.yml -f docker-compose.staging.yml up --build
+docker-compose --env-file .env-prod -p prod -f docker-compose.yml -f docker-compose.prod.yml up --build
+
+#connect aws
+ssh -i /Users/snaildymac/aws-keys/kevin-snaildy.pem ec2-user@44.212.59.59

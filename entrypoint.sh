@@ -16,7 +16,7 @@ find . -name "*.json" -path "*/fixtures/*" -exec python manage.py loaddata {} \;
 # Apply migrations
 # python manage.py makemigrations --noinput
 python manage.py migrate --noinput
-
+python manage.py createsuperuser --noinput --email $DJANGO_SUPERUSER_EMAIL || true
 # Collect static files
 python manage.py collectstatic --noinput
 
