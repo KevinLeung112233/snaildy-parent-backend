@@ -39,8 +39,16 @@ class School(models.Model):
 
     # Choices for type
     TYPE_CHOICES = [
-        ('primary', 'Primary'),
-        ('secondary', 'Secondary'),
+        ('social_development', '群育'),
+        ('hospital_school', '醫院學校'),
+        ('physical_disability', '肢體傷殘'),
+        ('visual_impairment', '視障'),
+        ('hearing_impairment', '聽障'),
+        ('mild_intellectual_disability', '輕度智障'),
+        ('moderate_intellectual_disability', '中度智障'),
+        ('mild_to_moderate_intellectual_disability', '輕中度智障'),
+        ('severe_intellectual_disability', '嚴重智障'),
+        ('mixed_intellectual_disability', '混合程度智障'),
     ]
 
     name_cn = models.CharField("中文名稱", max_length=255)
@@ -55,13 +63,13 @@ class School(models.Model):
 
     area = models.CharField(
         "地區",
-        max_length=10,
+        max_length=50,
         choices=AREA_CHOICES,
     )
 
     type = models.CharField(
         "類別",
-        max_length=10,
+        max_length=50,
         choices=TYPE_CHOICES,
     )
 

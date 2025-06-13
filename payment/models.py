@@ -1,5 +1,6 @@
 from django.db import models
 from booking.models import Booking
+from coupon.models import Coupon
 
 
 class Payment(models.Model):
@@ -9,7 +10,8 @@ class Payment(models.Model):
         ('failed', 'Failed'),
         ('refunded', '已退款'),
     ]
-
+    booking = models.OneToOneField(
+        Booking, on_delete=models.CASCADE, related_name='payment', verbose_name="預約")
     booking = models.OneToOneField(
         Booking, on_delete=models.CASCADE, related_name='payment', verbose_name="預約")
     amount = models.DecimalField(
@@ -24,6 +26,14 @@ class Payment(models.Model):
         max_length=100, blank=True, verbose_name="付款方式")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新時間")
+    coupon = models.ForeignKey(
+        Coupon,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='payments',
+        verbose_name="使用的優惠券"
+    )
 
     class Meta:
         verbose_name = "付款"

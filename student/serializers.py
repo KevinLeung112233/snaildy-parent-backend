@@ -6,10 +6,12 @@ from school.models import School
 class StudentCreateSerializer(serializers.ModelSerializer):
     grade = serializers.SlugRelatedField(
         slug_field='id',  # since Grade's PK is a string id
-        queryset=Grade.objects.all()
+        queryset=Grade.objects.all(),
+        required=False,
     )
     school = serializers.PrimaryKeyRelatedField(
-        queryset=School.objects.all()
+        queryset=School.objects.all(),
+        required=False,
     )
 
     class Meta:

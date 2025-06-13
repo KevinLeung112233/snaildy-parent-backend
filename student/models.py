@@ -37,16 +37,19 @@ class Student(models.Model):
         on_delete=models.PROTECT,
         related_name="students",
         verbose_name="學校",
-        blank=True
+        blank=True,
+        null=True,
     )
     grade = models.ForeignKey(
         Grade,
         on_delete=models.PROTECT,
         related_name="students",
         verbose_name="就讀年級",
-        blank=True
+        blank=True,
+        null=True,
     )
     date_of_birth = models.DateField(verbose_name="出生日期",
+                                     null=True,
                                      blank=True)
 
     # Add reference to custom user
@@ -84,6 +87,11 @@ class StudentSession(models.Model):
     session_id = models.CharField(
         max_length=255, unique=True, verbose_name="SessionId")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
+
+    strn = models.CharField(max_length=255, blank=True,
+                            null=True, verbose_name="STRN", unique=True)
+    id_no = models.CharField(max_length=255, blank=True,
+                             null=True, verbose_name="HKID", unique=True)
 
     def __str__(self):
         return f"Session {self.session_id} for user {self.user}"

@@ -50,12 +50,11 @@ curl -X POST http://127.0.0.1:8081/api/accounts/token/refresh/ \
 }'
 
 #bind student acc
-curl -X POST http://127.0.0.1:8081/api/student/bind-student/ \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ5Njk5MjUyLCJpYXQiOjE3NDg4MzUyNTIsImp0aSI6IjY5ZTllYmMwMmRkNjRmZWZiYWUyZDM0NmMwYjc3N2FhIiwidXNlcl9pZCI6M30.8h37nMPeaI3RzBaoxCKYeFfWNmHxDaUuyXbkeb7AvYU" \
+curl -X POST http://localhost:8081/api/student/bind-student/ \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNTg3NDU1LCJpYXQiOjE3NDk3MjM0NTUsImp0aSI6ImMzMzFkZWVmN2M4OTQ2NDliZmY4ZmE0YzliNWI3MjhjIiwidXNlcl9pZCI6M30.SYRZVIhz_oOk7DYxhZqe41n7SyGh2de8_NzXmMMZays" \
 -H "Content-Type: application/json" \
 -d '{
-  "student_token": "000000000"
-  ""
+  "student_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTA3ZWM3ZTE1MTNiZmU2ZGVmNDEwYjIiLCJ1c2VybmFtZSI6IjEwNjgwQlFRIiwiaW5zdGl0dXRlSWQiOiI2NGY3YjI2ZTM3YjNjMWZmM2EyODAzMDQiLCJzdWIiOiI2NTA3ZWM3ZTE1MTNiZmU2ZGVmNDEwYjIiLCJhcHAiOiJwYXJlbnQiLCJpYXQiOjE3NDk3MTM5OTksImV4cCI6MTc1MDA3Mzk5OSwiYXVkIjoiaHR0cHM6Ly9zY2hvb2wuc25haWxkaXZlcnNlLmNvbSIsImlzcyI6Imh0dHBzOi8vc2Nob29sLnNuYWlsZGl2ZXJzZS5jb20ifQ.I_pThDbVzbASKWGXe8qs-RWo4sqpJRI79BUgO2AsBwH_bbCj1yKwSwrKbyNxsws4dX8weIiEghqw0pOLGZSnIw43yYQY9aH5xU8ZQ2c7ljvk04Xd9OdBxvBfap-hZlxJMpTnDSlewUDFcbk13_Il1SSrounDhr8jXcPPMIs3yVUXXHdC2qxesUIsfoIos9klQrOyDYaBScUxmgnCUyUTn_aMySO509op4QbSSLyEDbGnikXUoc-fYoVFsQMcIG9wSh37TSF-kRb-qZzFkxJZt2TG5Q-r-KXByUQ7F7Ip-9GlRggog5HcHH_bDGylmmM9V3xcOXhJrzg7iFF1EjU4jOVU4qhmFGafJVnYiUQZw3J8XbJko1cOqF1bi3w0PAhRudplZWa899j9D3_yjgVwPyOGcohhHMBxA1K0XqdKqax5fUTPbU7uFj2NL0VK6sbfagXxU4MFiJ6DiRT7fTDm2mPfZ3YG3nB9MJwGzyhd0x5wKq98YdEVqmBI7N0SXepB1fyyw4yw0Z3RXysf20kG9dKXldgfcYpZfWxZj6vI42KgGT6li5bmYqX2FSnf86_jdkQ6JmZuvcmKpwZt0wLxTku_RKwrBUgoj07JSr1_bQCDK4GAO7wlichcA-yyco18FINM7zCBQSSMZ-ukhldXfXm5kFcnIlFnEogAIiVQEwo"
 }'
 
 #get all binded student tokens
@@ -149,6 +148,9 @@ docker-compose --env-file .env-prod -p prod -f docker-compose.yml -f docker-comp
 docker-compose --env-file .env-staging -p local -f docker-compose.yml -f docker-compose.local.yml up --build
 docker-compose --env-file .env-staging -p local -f docker-compose.yml -f docker-compose.local.yml run --rm web python manage.py startapp sen
 
+#startapp in local file system
+docker exec -it local-web-1 sh
+python manage.py startapp coupon
 
 
 #connect aws

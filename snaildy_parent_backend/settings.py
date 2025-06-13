@@ -65,6 +65,11 @@ INSTALLED_APPS = [
     'activity_record',
     'school',
     'mentor',
+    'coupon',
+    'sen',
+    'product',
+    'holland_code',
+    'subscription',
 
     'allauth',
     'allauth.account',

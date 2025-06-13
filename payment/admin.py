@@ -7,3 +7,4 @@ class PaymentAdmin(admin.ModelAdmin):
     list_display = ('booking', 'amount', 'currency',
                     'status', 'payment_method', 'created_at')
     list_filter = ('status',)
+    readonly_fields = ['currency']

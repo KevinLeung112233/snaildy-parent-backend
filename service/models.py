@@ -18,6 +18,8 @@ class Organization(models.Model):
 
 
 class ServiceType(models.Model):
+    id = models.CharField(max_length=100, unique=True, primary_key=True,
+                          verbose_name="id")
     name = models.CharField(max_length=100, verbose_name="服務類型名稱")
 
     def __str__(self):

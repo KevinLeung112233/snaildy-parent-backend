@@ -1,5 +1,7 @@
 from .models import Student, StudentSession, Grade
 from django.contrib import admin
+from sen.models import Sen
+from holland_code.models import HollandCode
 
 
 @admin.register(Grade)
@@ -15,6 +17,19 @@ class StudentSessionAdmin(admin.ModelAdmin):
     def get_user_id(self, obj):
         return obj.user.user_id
     get_user_id.short_description = 'User ID'
+
+
+class SenInline(admin.TabularInline):
+    model = Sen
+    extra = 0  # Number of empty forms to display
+    # Optional: make timestamps readonly
+    readonly_fields = ('created_at', 'updated_at')
+
+
+class HollandCodeInline(admin.TabularInline):
+    model = HollandCode
+    extra = 0
+    # You can add readonly_fields or customize as needed
 
 
 @admin.register(Student)
@@ -42,7 +57,7 @@ class StudentAdmin(admin.ModelAdmin):
         email = getattr(parent, 'email', '')
         name = getattr(parent, 'name', '') or getattr(
             parent, 'get_full_name', lambda: '')()
-        user_id = getattr(parent, 'id', '')
+        user_id = getattr(parent, 'user_id', '')
         return f"{name} | {phone} | {email} | ID: {user_id}"
 
     parent_info.short_description = "家長資訊"
@@ -53,3 +68,4 @@ class StudentAdmin(admin.ModelAdmin):
     list_filter = ('school', 'grade', 'parent')
     search_fields = ('chinese_name', 'english_name', 'strn',
                      'id_no', 'parent__name', 'parent__email')
+    inlines = [SenInline, HollandCodeInline]

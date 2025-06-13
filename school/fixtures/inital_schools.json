@@ -11326,5 +11326,749 @@
             "area": "香港島",
             "type": "secondary"
         }
+    },
+    {
+        "model": "school.school",
+        "pk": 945,
+        "fields": {
+            "name_cn": "心光學校",
+            "name_eng": "",
+            "address": "香港薄扶林道131號",
+            "district": "南區",
+            "area": "香港島",
+            "type": "visual_impairment"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 946,
+        "fields": {
+            "name_cn": "心光恩望學校",
+            "name_eng": "",
+            "address": "香港薄扶林道131號",
+            "district": "南區",
+            "area": "香港島",
+            "type": "visual_impairment"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 947,
+        "fields": {
+            "name_cn": "路德會啟聾學校",
+            "name_eng": "",
+            "address": "新界葵涌興盛路89號",
+            "district": "葵青區",
+            "area": "新界",
+            "type": "hearing_impairment"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 948,
+        "fields": {
+            "name_cn": "香港紅十字會雅麗珊郡主學校",
+            "name_eng": "",
+            "address": "九龍觀塘復康徑8-9號",
+            "district": "觀塘區",
+            "area": "九龍",
+            "type": "physical_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 949,
+        "fields": {
+            "name_cn": "香港耀能協會高福耀紀念學校",
+            "name_eng": "",
+            "address": "新界沙田禾輋邨豐禾里2號",
+            "district": "沙田區",
+            "area": "新界",
+            "type": "physical_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 950,
+        "fields": {
+            "name_cn": "香港耀能協會賽馬會田綺玲學校",
+            "name_eng": "",
+            "address": "新界大埔富忠里1號",
+            "district": "大埔區",
+            "area": "新界",
+            "type": "physical_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 951,
+        "fields": {
+            "name_cn": "香港耀能協會羅怡基紀念學校",
+            "name_eng": "",
+            "address": "新界葵涌葵合街22號",
+            "district": "葵青區",
+            "area": "新界",
+            "type": "physical_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 952,
+        "fields": {
+            "name_cn": "香港基督教服務處培愛學校",
+            "name_eng": "",
+            "address": "香港新界屯門恆貴街6及8號",
+            "district": "屯門區",
+            "area": "新界",
+            "type": "physical_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 953,
+        "fields": {
+            "name_cn": "香港紅十字會甘迺迪中心",
+            "name_eng": "",
+            "address": "香港大口環道15及17號",
+            "district": "南區",
+            "area": "香港島",
+            "type": "physical_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 954,
+        "fields": {
+            "name_cn": "香港紅十字會瑪嘉烈戴麟趾學校",
+            "name_eng": "",
+            "address": "九龍黃大仙牛池灣平定道東10號",
+            "district": "黃大仙區",
+            "area": "九龍",
+            "type": "physical_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 955,
+        "fields": {
+            "name_cn": "匡智屯門晨輝學校",
+            "name_eng": "",
+            "address": "新界屯門青麟路2號",
+            "district": "屯門區",
+            "area": "新界",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 956,
+        "fields": {
+            "name_cn": "匡智獅子會晨崗學校",
+            "name_eng": "",
+            "address": "香港跑馬地藍塘道159號",
+            "district": "灣仔區",
+            "area": "香港島",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 957,
+        "fields": {
+            "name_cn": "道慈佛社楊日霖紀念學校",
+            "name_eng": "",
+            "address": "新界元朗天水圍天柏路6號",
+            "district": "元朗區",
+            "area": "新界",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 958,
+        "fields": {
+            "name_cn": "中華基督教會望覺堂啟愛學校",
+            "name_eng": "",
+            "address": "九龍深旺道110號",
+            "district": "深水埗區",
+            "area": "九龍",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 959,
+        "fields": {
+            "name_cn": "路德會救主學校",
+            "name_eng": "",
+            "address": "九龍深水埗大埔道288號",
+            "district": "深水埗區",
+            "area": "九龍",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 960,
+        "fields": {
+            "name_cn": "中華基督教會基順學校",
+            "name_eng": "",
+            "address": "九龍觀塘順利邨(A區)第一期屋邨小學校舍",
+            "district": "觀塘區",
+            "area": "九龍",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 961,
+        "fields": {
+            "name_cn": "才俊學校",
+            "name_eng": "",
+            "address": "新界沙田大圍顯泰街2號",
+            "district": "沙田區",
+            "area": "新界",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 962,
+        "fields": {
+            "name_cn": "沙田公立學校",
+            "name_eng": "",
+            "address": "新界沙田大圍積輝街15號",
+            "district": "沙田區",
+            "area": "新界",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 963,
+        "fields": {
+            "name_cn": "救世軍石湖學校",
+            "name_eng": "",
+            "address": "新界上水馬會道第8區",
+            "district": "北區",
+            "area": "新界",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 964,
+        "fields": {
+            "name_cn": "三水同鄉會劉本章學校",
+            "name_eng": "",
+            "address": "新界葵盛邨第10座學校第三座校舍",
+            "district": "葵青區",
+            "area": "新界",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 965,
+        "fields": {
+            "name_cn": "匡智屯門晨崗學校",
+            "name_eng": "",
+            "address": "新界屯門育青里2號",
+            "district": "屯門區",
+            "area": "新界",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 966,
+        "fields": {
+            "name_cn": "匡智翠林晨崗學校",
+            "name_eng": "",
+            "address": "新界將軍澳翠林邨",
+            "district": "西貢區",
+            "area": "新界",
+            "type": "mild_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 967,
+        "fields": {
+            "name_cn": "匡智元朗晨樂學校",
+            "name_eng": "",
+            "address": "新界元朗體育路11號",
+            "district": "元朗區",
+            "area": "新界",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 968,
+        "fields": {
+            "name_cn": "保良局余李慕芬紀念學校",
+            "name_eng": "",
+            "address": "香港北角和富道19號",
+            "district": "東區",
+            "area": "香港島",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 969,
+        "fields": {
+            "name_cn": "保良局陳麗玲(百周年)學校",
+            "name_eng": "",
+            "address": "九龍土瓜灣浙江街15號",
+            "district": "九龍城區",
+            "area": "九龍",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 970,
+        "fields": {
+            "name_cn": "禮賢會恩慈學校",
+            "name_eng": "",
+            "address": "九龍鑽石山鳳德邨",
+            "district": "黃大仙區",
+            "area": "九龍",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 971,
+        "fields": {
+            "name_cn": "基督教中國佈道會聖道學校",
+            "name_eng": "",
+            "address": "九龍油塘鯉魚門道60號",
+            "district": "觀塘區",
+            "area": "九龍",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 972,
+        "fields": {
+            "name_cn": "明愛樂進學校",
+            "name_eng": "",
+            "address": "新界沙田大圍文禮路39號",
+            "district": "沙田區",
+            "area": "新界",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 973,
+        "fields": {
+            "name_cn": "明愛樂群學校",
+            "name_eng": "",
+            "address": "新界沙田穗禾路31號",
+            "district": "沙田區",
+            "area": "新界",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 974,
+        "fields": {
+            "name_cn": "匡智松嶺學校",
+            "name_eng": "",
+            "address": "新界大埔南坑大埔市地段第三十四號",
+            "district": "大埔區",
+            "area": "新界",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 975,
+        "fields": {
+            "name_cn": "香港四邑商工總會陳南昌紀念學校",
+            "name_eng": "",
+            "address": "新界葵涌榮芳路22號",
+            "district": "葵青區",
+            "area": "新界",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 976,
+        "fields": {
+            "name_cn": "匡智元朗晨曦學校",
+            "name_eng": "",
+            "address": "新界元朗錦繡花園荔枝北路133號",
+            "district": "元朗區",
+            "area": "新界",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 977,
+        "fields": {
+            "name_cn": "將軍澳培智學校",
+            "name_eng": "",
+            "address": "新界將軍澳陶樂路九號",
+            "district": "西貢區",
+            "area": "新界",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 978,
+        "fields": {
+            "name_cn": "東華三院群芳啟智學校",
+            "name_eng": "",
+            "address": "九龍大坑東南山邨道28號",
+            "district": "深水埗區",
+            "area": "九龍",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 979,
+        "fields": {
+            "name_cn": "匡智屯門晨曦學校",
+            "name_eng": "",
+            "address": "新界屯門育青里2號",
+            "district": "屯門區",
+            "area": "新界",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 980,
+        "fields": {
+            "name_cn": "賽馬會匡智學校",
+            "name_eng": "",
+            "address": "香港灣仔活道29號",
+            "district": "灣仔區",
+            "area": "香港島",
+            "type": "moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 981,
+        "fields": {
+            "name_cn": "東華三院徐展堂學校",
+            "name_eng": "",
+            "address": "香港華富邨瀑布灣道25號",
+            "district": "南區",
+            "area": "香港島",
+            "type": "mild_to_moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 982,
+        "fields": {
+            "name_cn": "天保民學校",
+            "name_eng": "",
+            "address": "九龍塘聯福道11號",
+            "district": "九龍城區",
+            "area": "九龍",
+            "type": "mild_to_moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 983,
+        "fields": {
+            "name_cn": "香海正覺蓮社佛教普光學校",
+            "name_eng": "",
+            "address": "新界粉嶺欣盛里2號",
+            "district": "北區",
+            "area": "新界",
+            "type": "mild_to_moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 984,
+        "fields": {
+            "name_cn": "匡智張玉瓊晨輝學校",
+            "name_eng": "",
+            "address": "新界葵涌荔景山路220號",
+            "district": "葵青區",
+            "area": "新界",
+            "type": "mild_to_moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 985,
+        "fields": {
+            "name_cn": "香港西區扶輪社匡智晨輝學校",
+            "name_eng": "",
+            "address": "香港柴灣興華村第2期校舍 第1號",
+            "district": "東區",
+            "area": "香港島",
+            "type": "mild_to_moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 986,
+        "fields": {
+            "name_cn": "東華三院包玉星學校",
+            "name_eng": "",
+            "address": "九龍旺角西洋菜南街 111 號",
+            "district": "油尖旺區",
+            "area": "九龍",
+            "type": "mild_to_moderate_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 987,
+        "fields": {
+            "name_cn": "明愛樂勤學校",
+            "name_eng": "",
+            "address": "新界元朗天水圍天壇街十七號",
+            "district": "元朗區",
+            "area": "新界",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 988,
+        "fields": {
+            "name_cn": "明愛樂義學校",
+            "name_eng": "",
+            "address": "香港西灣河鯉景灣鯉景道51號",
+            "district": "東區",
+            "area": "香港島",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 989,
+        "fields": {
+            "name_cn": "明愛賽馬會樂仁學校",
+            "name_eng": "",
+            "address": "九龍深水埗永康街121號",
+            "district": "深水埗區",
+            "area": "九龍",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 990,
+        "fields": {
+            "name_cn": "香港心理衛生會–臻和學校",
+            "name_eng": "",
+            "address": "九龍深水埗歌和老街53號",
+            "district": "深水埗區",
+            "area": "九龍",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 991,
+        "fields": {
+            "name_cn": "慈恩學校",
+            "name_eng": "",
+            "address": "九龍土瓜灣浙江街13號",
+            "district": "九龍城區",
+            "area": "九龍",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 992,
+        "fields": {
+            "name_cn": "匡智松嶺第二校",
+            "name_eng": "",
+            "address": "新界大埔南坑頌雅路松嶺村",
+            "district": "大埔區",
+            "area": "新界",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 993,
+        "fields": {
+            "name_cn": "匡智松嶺第三校",
+            "name_eng": "",
+            "address": "新界大埔頌雅路松嶺村",
+            "district": "大埔區",
+            "area": "新界",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 994,
+        "fields": {
+            "name_cn": "保良局陳百強伉儷青衣學校",
+            "name_eng": "",
+            "address": "新界青衣青芊街2號",
+            "district": "葵青區",
+            "area": "新界",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 995,
+        "fields": {
+            "name_cn": "保良局羅氏信託學校",
+            "name_eng": "",
+            "address": "新界元朗公園南路26號",
+            "district": "元朗區",
+            "area": "新界",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 996,
+        "fields": {
+            "name_cn": "靈實恩光學校",
+            "name_eng": "",
+            "address": "新界將軍澳安達臣道301號",
+            "district": "西貢區",
+            "area": "新界",
+            "type": "severe_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 997,
+        "fields": {
+            "name_cn": "匡智紹邦晨輝學校",
+            "name_eng": "",
+            "address": "香港新界東涌松滿路9號",
+            "district": "離島區",
+            "area": "離島",
+            "type": "mixed_intellectual_disability"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 998,
+        "fields": {
+            "name_cn": "香港青少年培育會陳南昌紀念學校",
+            "name_eng": "",
+            "address": "香港黃竹坑南朗山道38號",
+            "district": "南區",
+            "area": "香港島",
+            "type": "social_development"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 999,
+        "fields": {
+            "name_cn": "瑪利灣學校",
+            "name_eng": "",
+            "address": "香港香港仔南朗山道32號",
+            "district": "南區",
+            "area": "香港島",
+            "type": "social_development"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 1000,
+        "fields": {
+            "name_cn": "香港扶幼會盛德中心學校",
+            "name_eng": "",
+            "address": "九龍觀塘利安里2號A",
+            "district": "觀塘區",
+            "area": "九龍",
+            "type": "social_development"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 1001,
+        "fields": {
+            "name_cn": "香港扶幼會則仁中心學校",
+            "name_eng": "",
+            "address": "九龍深水埗歌和老街47號",
+            "district": "深水埗區",
+            "area": "九龍",
+            "type": "social_development"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 1002,
+        "fields": {
+            "name_cn": "香港扶幼會許仲繩紀念學校",
+            "name_eng": "",
+            "address": "九龍長沙灣東沙島街150號",
+            "district": "深水埗區",
+            "area": "九龍",
+            "type": "social_development"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 1003,
+        "fields": {
+            "name_cn": "明愛培立學校",
+            "name_eng": "",
+            "address": "九龍清水灣道6010地段(彩雲邨豐澤樓對面)",
+            "district": "黃大仙區",
+            "area": "九龍",
+            "type": "social_development"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 1004,
+        "fields": {
+            "name_cn": "東灣莫羅瑞華學校",
+            "name_eng": "",
+            "address": "新界屯門旺賢街12號",
+            "district": "屯門區",
+            "area": "新界",
+            "type": "social_development"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 1005,
+        "fields": {
+            "name_cn": "明愛樂恩學校",
+            "name_eng": "",
+            "address": "九龍 觀塘 彩興路 20號",
+            "district": "觀塘區",
+            "area": "九龍",
+            "type": "social_development"
+        }
+    },
+    {
+        "model": "school.school",
+        "pk": 1006,
+        "fields": {
+            "name_cn": "香港紅十字會醫院學校",
+            "name_eng": "",
+            "address": "香港西九龍海庭道19號9樓907室",
+            "district": "油尖旺區",
+            "area": "九龍",
+            "type": "hospital_school"
+        }
     }
 ]
