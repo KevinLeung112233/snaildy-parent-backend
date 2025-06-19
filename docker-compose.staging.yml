@@ -2,6 +2,7 @@ version: "3.9"
 
 services:
   web:
+    image: kevinleung227/snaildy-parent:staging
     env_file:
       - .env-staging
     ports:

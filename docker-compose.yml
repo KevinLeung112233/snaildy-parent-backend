@@ -28,7 +28,7 @@ services:
 
   web:
     # image: kevinleung227/snaildy-parent:latest
-    build: .
+    # build: .
     volumes:
       - static_volume:/app/staticfiles
     expose:

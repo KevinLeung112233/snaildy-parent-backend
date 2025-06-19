@@ -5,17 +5,23 @@ from django.utils import timezone
 
 class Coupon(models.Model):
     code = models.CharField(max_length=50, unique=True,
-                            verbose_name="優惠碼")  # Coupon code
+                            verbose_name="優惠碼")
+    desc = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="簡介",
+        help_text="Description of the coupon"
+    )
     discount_amount = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0, verbose_name="折扣金額")  # Fixed discount amount
+        max_digits=10, decimal_places=2, default=0, verbose_name="折扣金額")
     discount_percent = models.PositiveIntegerField(
-        null=True, blank=True, verbose_name="折扣百分比")  # Discount percentage
+        null=True, blank=True, verbose_name="折扣百分比")
     valid_from = models.DateTimeField(
-        verbose_name="有效開始日期")  # Coupon valid start date
+        verbose_name="有效開始日期")
     valid_to = models.DateTimeField(
-        verbose_name="有效結束日期")  # Coupon valid end date
+        verbose_name="有效結束日期")
     active = models.BooleanField(
-        default=True, verbose_name="是否啟用")  # Is the coupon active?
+        default=True, verbose_name="是否啟用")
 
     quota = models.PositiveIntegerField(
         null=True, blank=True, verbose_name="總使用次數限制")  # Total usage quota

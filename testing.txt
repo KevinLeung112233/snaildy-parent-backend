@@ -147,6 +147,8 @@ docker-compose --env-file .env-prod -p prod -f docker-compose.yml -f docker-comp
 #testing for local
 docker-compose --env-file .env-staging -p local -f docker-compose.yml -f docker-compose.local.yml up --build
 docker-compose --env-file .env-staging -p local -f docker-compose.yml -f docker-compose.local.yml run --rm web python manage.py startapp sen
+docker-compose --env-file .env-staging -p staging -f docker-compose.yml -f docker-compose.staging.yml up --build
+
 
 #startapp in local file system
 docker exec -it local-web-1 sh
@@ -155,3 +157,10 @@ python manage.py startapp coupon
 
 #connect aws
 ssh -i /Users/snaildymac/aws-keys/kevin-snaildy.pem ec2-user@44.212.59.59
+
+
+#docker 
+docker buildx build --platform linux/amd64,linux/arm64 -t kevinleung227/snaildy-parent:staging  --push .
+#aws
+docker compose --env-file .env-staging -p staging -f docker-compose.yml -f docker-compose.staging.yml up --build -d
+##### Remember set security group on aws 8081,8082

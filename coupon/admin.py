@@ -6,6 +6,7 @@ from .models import Coupon
 class CouponAdmin(admin.ModelAdmin):
     list_display = (
         'code',
+        'desc',
         'discount_amount',
         'discount_percent',
         'valid_from',
@@ -40,6 +41,7 @@ class CouponAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'code',
+                'desc',
                 'discount_amount',
                 'discount_percent',
                 'valid_from',
