@@ -1,78 +1,59 @@
 (function($) {
-    // CSRF token setup
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
+//   $(document).ready(function() {
+//     var $userSelect = $('#id_user');
+//     var $studentsSelect = $('#id_students');
 
-    $.ajaxSetup({
-        xhrFields: { withCredentials: true },
-        headers: { "X-CSRFToken": csrftoken }
-    });
+//     function updateStudentDropdown(userId) {
+//       if (!userId) {
+//         // Clear selection and disable the field
+//         $studentsSelect.val(null).trigger('change');
+//         $studentsSelect.prop('disabled', true);
+//         return;
+//       }
 
-    $(document).ready(function() {
-        $('#id_service').change(function() {
-            var serviceId = $(this).val();
-            var timeslotUrl = '/admin/booking/booking/get-timeslots/';
+//       $studentsSelect.prop('disabled', false);
 
-            var data = {};
-            if (serviceId) {
-                data['service'] = serviceId;
-            }
+//       // Fetch students via AJAX
+//       $.ajax({
+//         url: '/admin/booking/booking/get-students-by-parent/',
+//         data: { parent_id: userId },
+//         dataType: 'json',
+//         success: function(data) {
+//           // Get currently selected student IDs to preserve selection
+//           var selected = $studentsSelect.val() || [];
 
-            $.ajax({
-                url: timeslotUrl,
-                data: data,
-                success: function(data) {
-                    var timeSlotSelect = $('#id_time_slot');
-                    timeSlotSelect.empty();
+//           // Clear existing options but keep the widget intact
+//           $studentsSelect.empty();
 
-                    // Add placeholder option first
-                    timeSlotSelect.append($('<option></option>').attr('value', '').text('請選擇時段'));
+//           // Add new options
+//           $.each(data.students, function(index, student) {
+//             var option = new Option(student.name, student.id, false, selected.includes(student.id.toString()));
+//             $studentsSelect.append(option);
+//           });
 
-                    if (!data || !data.timeslots) {
-                        alert('取得時段失敗，請稍後再試。');
-                        return;
-                    }
+//           // Trigger change to update Select2
+//           $studentsSelect.trigger('change');
+//         },
+//         error: function() {
+//           // On error, clear options and disable
+//           $studentsSelect.empty().val(null).trigger('change');
+//           $studentsSelect.prop('disabled', true);
+//         }
+//       });
+//     }
 
-                    if (data.timeslots.length === 0) {
-                        timeSlotSelect.append($('<option></option>').text('無可用時段').attr('value', ''));
-                    } else {
-                        $.each(data.timeslots, function(index, timeslot) {
-                            timeSlotSelect.append(
-                                $('<option></option>')
-                                    .attr('value', timeslot.id)
-                                    .attr('data-service-id', timeslot.service_id)
-                                    .text(timeslot.display)
-                            );
-                        });
-                    }
-                },
-                error: function() {
-                    alert('取得時段失敗，請稍後再試。');
-                }
-            });
-        });
+//     // Listen for user selection changes
+//     $userSelect.on('select2:select change', function() {
+//       var userId = $(this).val();
+//       updateStudentDropdown(userId);
+//     });
 
-        $('#id_time_slot').change(function() {
-            var selectedOption = $(this).find('option:selected');
-            if(selectedOption.length > 0){
-                var serviceId = selectedOption.data('service-id');
-                if (serviceId) {
-                    $('#id_service').val(serviceId).trigger('change');
-                }
-            }
-        });
-    });
+//     // On page load, initialize students dropdown if user preselected
+//     var initialUserId = $userSelect.val();
+//     if (initialUserId) {
+//       updateStudentDropdown(initialUserId);
+//     } else {
+//       $studentsSelect.prop('disabled', true);
+//     }
+//   });
 })(django.jQuery);

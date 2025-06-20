@@ -4,7 +4,6 @@ import re
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 
-from accounts.backends import UserModel
 from .models import CustomUser
 from django.contrib.auth import authenticate, get_user_model
 from student.models import StudentSession
@@ -119,8 +118,21 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     student_sessions = StudentSessionSerializer(
         source='student_sessions', many=True, read_only=True)
+    member_tier = serializers.StringRelatedField()  # show member tier name
 
     class Meta:
-        model = User
-        fields = ['id', 'first_name', 'last_name',
-                  'email', 'phone_number', 'student_sessions']
+        model = CustomUser
+        fields = [
+            'user_id',
+            'email',
+            'phone_number',
+            'salutation',
+            'first_name',
+            'last_name',
+            'login_method',
+            'date_joined',
+            'is_active',
+            'is_staff',
+            'is_mentor',
+            'member_tier',
+        ]

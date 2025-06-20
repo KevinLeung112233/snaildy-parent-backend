@@ -68,9 +68,9 @@ class TimeSlotInline(admin.TabularInline):
     #     )
 
 
-class CustomServiceAdmin(admin.ModelAdmin):
-    class Media:
-        js = ('service/js/remove_autofocus.js',)
+# class CustomServiceAdmin(admin.ModelAdmin):
+#     class Media:
+#         js = ('service/js/remove_autofocus.js',)
 
 
 @admin.register(Service)

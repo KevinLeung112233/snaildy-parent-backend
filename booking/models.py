@@ -1,3 +1,4 @@
+from student.models import Student  # Import Student model
 from django.conf import settings
 from django.db import models
 
@@ -36,6 +37,11 @@ class Booking(models.Model):
         BookingStatus,
         on_delete=models.PROTECT,
         verbose_name="預約狀態"
+    )
+    students = models.ManyToManyField(
+        Student,
+        blank=True,
+        verbose_name="學生"
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="建立時間")
 

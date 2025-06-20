@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:17-alpine
     env_file:
-      - .env-staging
+      - .env-local
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USER}
@@ -31,7 +31,7 @@ services:
   web:
     build: .
     env_file:
-      - .env-staging
+      - .env-local
     volumes:
       - .:/app
       - static_volume:/app/staticfiles

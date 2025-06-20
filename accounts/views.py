@@ -1,14 +1,10 @@
 from accounts.models import CustomUser
-from uuid import uuid4
 from rest_framework.generics import RetrieveAPIView
-import uuid
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-import re  # Added for email validation
-from django.contrib.auth import authenticate  # Added for authentication
 
 from accounts.models import MemberTier
 from .serializers import RegisterSerializer, OTPVerifySerializer, LoginSerializer, UserProfileSerializer
@@ -18,6 +14,7 @@ from django.core.cache import cache
 import random
 from rest_framework.permissions import IsAuthenticated
 from typing import Tuple
+from django.utils.timezone import now
 
 
 User = get_user_model()
@@ -138,6 +135,10 @@ class LoginView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+
+        user.last_login = now()
+        user.save(update_fields=['last_login'])
+
         refresh = RefreshToken.for_user(user)
         return Response({
             "refresh": str(refresh),
@@ -204,9 +205,8 @@ class TokenRefreshView(APIView):
 
 
 class UserProfileView(RetrieveAPIView):
-    serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_object(self):
-        # Return the currently authenticated user
-        return self.request.user
+    def get(self, request):
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data)

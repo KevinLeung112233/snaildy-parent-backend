@@ -164,3 +164,33 @@ docker buildx build --platform linux/amd64,linux/arm64 -t kevinleung227/snaildy-
 #aws
 docker compose --env-file .env-staging -p staging -f docker-compose.yml -f docker-compose.staging.yml up --build -d
 ##### Remember set security group on aws 8081,8082
+
+
+#testing aws server
+
+{"refresh":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1Mjk4MTM0OSwiaWF0IjoxNzUwMzg5MzQ5LCJqdGkiOiI4ZjgzMThkNTJiZTI0MDc0OWY2MDM0ZWI1ZjAyMDA0OSIsInVzZXJfaWQiOjJ9.8BsiYdnpDxgzUEJp9YaFUo7pyYY5Ep26ujDKkh_nV8M",
+"access":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxMjUzMzQ5LCJpYXQiOjE3NTAzODkzNDksImp0aSI6IjUyNmNmOGFmNjdhODQyZjliMjBhMjMyOTMwMzAyMzU0IiwidXNlcl9pZCI6Mn0.5ZvNraC0d3AfA7h7BfoYNTPNCGx2gwyT2AmgvOajmMs"}
+
+curl -X POST http://44.212.59.59:8081/api/accounts/register/ \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "kevin@snaildy.com",
+  "password": "123456",
+  "login_method": "email",
+  "first_name": "Kevin",
+  "last_name": "Snaildy"
+}
+
+curl -X POST http://44.212.59.59:8081/api/accounts/verify-otp/ \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "kevin@snaildy.com",
+  "otp": "438227"
+}'
+
+curl -X POST http://44.212.59.59:8081/api/accounts/login/ \
+-H "Content-Type: application/json" \
+-d '{
+  "identifier": "64832380",
+  "password": "123456"
+}'
