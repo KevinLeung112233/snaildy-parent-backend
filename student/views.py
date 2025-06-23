@@ -14,6 +14,19 @@ from school.models import School
 from student.models import Student, Grade  # Assuming Grade model exists
 from django.db import transaction
 from .models import StudentSession
+from django_select2.views import AutoResponseView
+
+
+class StudentAutocomplete(AutoResponseView):
+    def get_queryset(self):
+        qs = Student.objects.all()
+        if self.q:
+            qs = qs.filter(
+                chinese_name__icontains=self.q
+            ) | qs.filter(
+                english_name__icontains=self.q
+            )
+        return qs
 
 
 class StudentCreateAPIView(generics.CreateAPIView):

@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
-from django.urls import path
+from django.urls import path, reverse
 from .models import BookingStatus, Booking
 from .forms import BookingAdminForm
 from service.models import TimeSlot
 from student.models import Student
 from django.contrib.auth import get_user_model
+
 
 User = get_user_model()
 
@@ -28,9 +29,8 @@ def get_students_by_parent(request):
     parent_id = request.GET.get('parent_id')
     students = []
     if parent_id:
-        # Use the user's primary key (id) to filter students
         students_qs = Student.objects.filter(parent__id=parent_id)
-        students = [{'id': s.id, 'name': str(s)} for s in students_qs]
+        students = [{'id': str(s.id), 'name': str(s)} for s in students_qs]
     return JsonResponse({'students': students})
 
 
@@ -56,7 +56,7 @@ class BookingAdmin(admin.ModelAdmin):
     list_display = ('user', 'service', 'time_slot', 'status', 'created_at')
     list_filter = (
         'status', ('service', admin.RelatedOnlyFieldListFilter), 'time_slot__status')
-    autocomplete_fields = ['user', 'service', 'students']
+    autocomplete_fields = ['user', 'service']
 
     class Media:
         js = ('booking/js/booking_admin.js',)

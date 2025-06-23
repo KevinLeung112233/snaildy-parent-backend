@@ -1,3 +1,6 @@
+from django.urls import path
+
+from student.views import StudentAutocomplete
 from .models import Student, StudentSession, Grade
 from django.contrib import admin
 from sen.models import Sen
@@ -69,3 +72,20 @@ class StudentAdmin(admin.ModelAdmin):
     search_fields = ('chinese_name', 'english_name', 'strn',
                      'id_no', 'parent__name', 'parent__email')
     inlines = [SenInline, HollandCodeInline]
+
+    def get_search_results(self, request, queryset, search_term):
+        parent_id = request.GET.get('parent_id')
+        if parent_id:
+            queryset = queryset.filter(parent_id=parent_id)
+        return super().get_search_results(request, queryset, search_term)
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                'autocomplete/',
+                self.admin_site.admin_view(StudentAutocomplete.as_view()),
+                name='student_student_autocomplete',
+            ),
+        ]
+        return custom_urls + urls

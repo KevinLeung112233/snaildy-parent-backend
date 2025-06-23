@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rangefilter',
+    'django.contrib.admin',
+    'django_select2',
 
     # my dbs
     'accounts',
@@ -76,7 +78,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.apple',
-    'django.contrib.admin',
     'maintenance_mode'
 ]
 

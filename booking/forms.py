@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
 from .models import Booking
 from service.models import TimeSlot
 from student.models import Student
-from django.core.exceptions import ValidationError
-from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 User = get_user_model()
 
@@ -13,23 +13,24 @@ class BookingAdminForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = '__all__'
-        # widgets = {
-        #     'user': Select2Widget,        # single select
-        #     'students': Select2MultipleWidget,  # multiple select
-        #     'service': Select2Widget,
-        # }
+        widgets = {
+            'students': forms.SelectMultiple(attrs={
+                'size': '100',  # controls dropdown height
+                'style': 'width: 300px;',  # optional width styling
+            }),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Set empty labels
+        # Set empty labels for ForeignKey fields
         self.fields['user'].empty_label = "Select a user"
         self.fields['time_slot'].empty_label = "Select a timeslot"
 
         # Filter user field to non-staff users only
         self.fields['user'].queryset = User.objects.filter(is_staff=False)
 
-        # Filter time_slot based on selected service
+        # Filter time_slot queryset based on selected service
         if 'service' in self.data:
             try:
                 service_id = int(self.data.get('service'))
@@ -41,10 +42,9 @@ class BookingAdminForm(forms.ModelForm):
             self.fields['time_slot'].queryset = TimeSlot.objects.filter(
                 service=self.instance.service)
         else:
-            # Show all timeslots initially
             self.fields['time_slot'].queryset = TimeSlot.objects.all()
 
-        # Filter students based on selected user
+        # Determine the selected user (parent)
         user = None
 
         # When editing existing instance
@@ -59,12 +59,20 @@ class BookingAdminForm(forms.ModelForm):
             except (ValueError, TypeError, User.DoesNotExist):
                 user = None
 
+        # Filter students queryset to include:
+        # - students related to the selected user (parent)
+        # - AND currently selected students on the instance (to show as selected)
         if user:
-            self.fields['students'].queryset = Student.objects.filter(
-                parent=user)
+            qs = Student.objects.filter(parent=user)
+            if self.instance.pk:
+                qs = qs | self.instance.students.all()
+            self.fields['students'].queryset = qs.distinct()
         else:
-            # Show no students when no user is selected
             self.fields['students'].queryset = Student.objects.none()
+
+        if self.instance and self.instance.pk:
+            self.fields['students'].initial = self.instance.students.all(
+            ).values_list('pk', flat=True)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -73,10 +81,7 @@ class BookingAdminForm(forms.ModelForm):
 
         # Validate that selected students belong to the user
         if user and students:
-            invalid_students = []
-            for student in students:
-                if student.parent != user:
-                    invalid_students.append(str(student))
+            invalid_students = [str(s) for s in students if s.parent != user]
 
             if invalid_students:
                 raise ValidationError(

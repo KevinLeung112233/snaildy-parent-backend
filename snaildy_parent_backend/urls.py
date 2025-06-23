@@ -21,8 +21,8 @@ def static_files_debug(request):
 urlpatterns = [
     # Grappelli URLS must come BEFORE admin URLs
     path('grappelli/', include('grappelli.urls')),
-    path('admin/booking/get-timeslots/',
-         staff_member_required(get_timeslots), name='get-timeslots'),
+    # path('admin/booking/get-timeslots/',
+    #      staff_member_required(get_timeslots), name='get-timeslots'),
     path('admin/', admin.site.urls),
 
     # Your other URL patterns
