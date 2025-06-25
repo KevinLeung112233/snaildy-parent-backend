@@ -4,12 +4,18 @@ import base64
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+import string
 
 
-def generate_short_uuid():
-    u = uuid.uuid4()
-    b64 = base64.urlsafe_b64encode(u.bytes).decode('utf-8').rstrip('=')
-    return b64[:8]
+def generate_short_uuid(length=8):
+    chars = string.ascii_letters + string.digits
+    u = uuid.uuid4().int  # large integer from UUID
+    base = len(chars)
+    result = []
+    for _ in range(length):
+        result.append(chars[u % base])
+        u //= base
+    return ''.join(result)
 
 
 class MemberTier(models.Model):
@@ -97,6 +103,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True, verbose_name="Activated")
     is_staff = models.BooleanField(default=False, verbose_name="是否管理員")
     is_mentor = models.BooleanField(default=False, verbose_name="是否導師")
+
+    # google and apple login
+    apple_id = models.CharField(
+        max_length=255, unique=True, null=True, blank=True)
+    google_id = models.CharField(
+        max_length=255, unique=True, null=True, blank=True, verbose_name="Google User ID")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

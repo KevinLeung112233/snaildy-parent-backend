@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 
 from accounts.models import MemberTier
-from .serializers import RegisterSerializer, OTPVerifySerializer, LoginSerializer, UserProfileSerializer
+from accounts.utils import verify_apple_identity_token, verify_google_token
+from .serializers import RegisterSerializer, OTPVerifySerializer, LoginSerializer, UserIdentifierCheckSerializer, UserProfileSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
 from django.core.cache import cache
@@ -76,6 +77,34 @@ def verify_cached_otp(user: CustomUser, otp_input: str) -> Tuple[bool, str]:
         return True, "OTP verified and user activated"
 
     return False, "Invalid OTP"
+
+
+class CheckUserExistView(APIView):
+    def post(self, request):
+        serializer = UserIdentifierCheckSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        identifier = serializer.validated_data['identifier']
+
+        # Simple heuristic: check if identifier looks like email
+        if '@' in identifier:
+            filter_kwargs = {'email': identifier}
+        else:
+            filter_kwargs = {'phone_number': identifier}
+
+        try:
+            user = User.objects.get(**filter_kwargs)
+        except User.DoesNotExist:
+            return Response({
+                "exists": False,
+                "is_active": False,
+                "message": "User not found."
+            }, status=status.HTTP_200_OK)
+
+        return Response({
+            "exists": True,
+            "is_active": user.is_active,
+            "message": "User found."
+        }, status=status.HTTP_200_OK)
 
 
 class RegisterView(generics.CreateAPIView):
@@ -210,3 +239,80 @@ class UserProfileView(RetrieveAPIView):
     def get(self, request):
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data)
+
+
+class GoogleLoginView(APIView):
+    def post(self, request):
+        token = request.data.get('token')
+        if not token:
+            return Response({"detail": "Token is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        idinfo = verify_google_token(token)
+        if not idinfo:
+            return Response({"detail": "Invalid Google token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        email = idinfo.get('email')
+        if not email:
+            return Response({"detail": "Email not available in token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        google_sub = idinfo.get('sub')
+        user, created = User.objects.get_or_create(
+            google_id=google_sub,
+            defaults={
+                'email': idinfo.get('email'),
+                'login_method': 'google',
+                'is_active': True,
+                'first_name': idinfo.get('given_name', ''),
+                'last_name': idinfo.get('family_name', ''),
+                # Set other defaults as needed
+            }
+        )
+
+        # If user exists but login_method is not google, you may want to handle that case
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        })
+
+
+class AppleLoginView(APIView):
+    def post(self, request):
+        identity_token = request.data.get('token')
+        authorization_code = request.data.get(
+            'authorization_code')  # Optional, for further validation
+
+        if not identity_token:
+            return Response({"detail": "identity_token is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Verify Apple identity token
+        payload = verify_apple_identity_token(
+            identity_token, audience='com.snaildy.snaildyParentApp')
+        if not payload:
+            return Response({"detail": "Invalid Apple identity token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        email = payload.get('email')
+        apple_sub = payload.get('sub')  # unique Apple user ID
+
+        if not email or not apple_sub:
+            return Response({"detail": "Email or sub missing in token"}, status=status.HTTP_400_BAD_REQUEST)
+
+        apple_sub = payload.get('sub')
+        # Lookup or create user
+        user, created = User.objects.get_or_create(
+            apple_id=apple_sub,
+            defaults={
+                'email': payload.get('email'),
+                'login_method': 'apple',
+                'is_active': True,
+                'first_name': request.data.get('given_name') or '',
+                'last_name': request.data.get('family_name') or '',
+            }
+        )
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        })

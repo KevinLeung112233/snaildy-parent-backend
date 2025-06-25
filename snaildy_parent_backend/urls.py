@@ -24,16 +24,15 @@ urlpatterns = [
     # path('admin/booking/get-timeslots/',
     #      staff_member_required(get_timeslots), name='get-timeslots'),
     path('admin/', admin.site.urls),
-
-    # Your other URL patterns
-    path('api/accounts/', include('accounts.urls')),
-    path('api/student/', include('student.urls')),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
-    path('api/', include('school.urls')),
+    # Your other URL patterns
+    path('api/v1/', include('accounts.urls')),
+    path('api/v1/', include('student.urls')),
+    path('api/v1/', include('school.urls')),
 ]
 
 
-if settings.DEBUG:
+if not settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,
                           document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,

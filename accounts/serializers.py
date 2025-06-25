@@ -11,6 +11,16 @@ from student.models import StudentSession
 User = get_user_model()
 
 
+class UserIdentifierCheckSerializer(serializers.Serializer):
+    identifier = serializers.CharField()
+
+    def validate_identifier(self, value):
+        # Basic validation can be added here if needed
+        if not value:
+            raise serializers.ValidationError("Identifier is required.")
+        return value
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     login_method = serializers.ChoiceField(

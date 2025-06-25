@@ -12,6 +12,7 @@ load_dotenv()
 
 DEBUG = os.getenv('DEBUG', '0') == '1'
 
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 # Security settings
 SECRET_KEY = os.getenv('SECRET_KEY')
 if not SECRET_KEY:
@@ -26,6 +27,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+if not DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
 
 STATICFILES_FINDERS = [
     # 'snaildy_parent_backend.static_finders.GrappelliFinder',
@@ -84,6 +90,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,6 +102,9 @@ MIDDLEWARE = [
     'maintenance_mode.middleware.MaintenanceModeMiddleware'
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 CSP_DEFAULT_SRC = ("'self'",)
 # Allow inline scripts (less secure)
 CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'")
@@ -102,6 +112,8 @@ CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'")
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -195,9 +207,9 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000  # 1 year
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True

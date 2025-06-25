@@ -35,11 +35,11 @@ curl -X POST http://localhost:8081/api/accounts/login/ \
 curl -X POST http://localhost:8081/api/accounts/register/ \
 -H "Content-Type: application/json" \
 -d '{
-  "email": "kevin@snaildy.com",
+  "email": "kevin886886@gmail.com",
   "password": "123456",
   "login_method": "email",
   "first_name": "Kevin",
-  "last_name": "Snaildy"
+  "last_name": "Testing"
 }'
 
 #refresh token
@@ -194,3 +194,29 @@ curl -X POST http://44.212.59.59:8081/api/accounts/login/ \
   "identifier": "64832380",
   "password": "123456"
 }'
+
+
+
+
+curl -X POST http://192.168.1.2:8081/api/v1/login \
+-H "Content-Type: application/json" \
+-d '{
+  "identifier": "testExist@gmail.com",
+  "password": "123321aaa"
+}'
+
+curl -X POST http://192.168.1.2:8081/api/v1/google-login/ \
+-H "Content-Type: application/json" \
+-d '{
+  "token": "33333"
+}'
+
+from django.core.mail import send_mail
+
+send_mail(
+    'Test Email',
+    'This is a test email from staging.',
+    'snaildyEmailSender@gmail.com',
+    ['kevin886886@gmail.com'],
+    fail_silently=False,
+)
