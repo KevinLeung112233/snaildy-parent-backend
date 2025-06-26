@@ -204,7 +204,7 @@ class ResendOTPView(generics.GenericAPIView):
 
         if otp_type == 'email':
             send_otp_email(user, otp_code)
-            return Response({"message": "OTP resent to your email"}, status=status.HTTP_200_OK)
+            return Response({"message": "OTP sent to your email"}, status=status.HTTP_200_OK)
         else:
             # FIXME: Implement SMS OTP sending for phone
             return Response({
@@ -213,11 +213,12 @@ class ResendOTPView(generics.GenericAPIView):
             }, status=status.HTTP_200_OK)
 
 
-# UPDATED TOKEN REFRESH VIEW
-class TokenRefreshView(APIView):
+class TokenRefreshView(generics.GenericAPIView):
     def post(self, request):
-        refresh_token_str = request.data.get('refresh_token')
+        print("refresh_token_str", request.data)
 
+        refresh_token_str = request.data.get('refresh-token')
+        print("refresh_token_str", refresh_token_str)
         if not refresh_token_str:
             return Response({"detail": "refresh_token is required"}, status=status.HTTP_400_BAD_REQUEST)
 
