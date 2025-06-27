@@ -5,28 +5,29 @@ from django.contrib.auth.backends import ModelBackend
 UserModel = get_user_model()
 
 
+UserModel = get_user_model()
+
+
 class EmailOrPhoneBackend(ModelBackend):
     def authenticate(self, request, **kwargs):
-        # Get credentials
         email = kwargs.get('email')
         phone_number = kwargs.get('phone_number')
         password = kwargs.get('password')
 
-        # Determine which identifier to use
-        if email:
-            lookup = {'email': email}
-        elif phone_number:
-            lookup = {'phone_number': phone_number}
-        else:
-            return None  # No valid identifier
+        user = None
 
         try:
-            user = UserModel.objects.get(**lookup)
+            if email:
+                # Case-insensitive email lookup
+                user = UserModel.objects.get(email__iexact=email)
+            elif phone_number:
+                user = UserModel.objects.get(phone_number=phone_number)
+            else:
+                return None
 
-            # Check password and active status
             if user.check_password(password) and self.user_can_authenticate(user):
                 return user
         except UserModel.DoesNotExist:
-            return None  # User not found
+            return None
 
-        return None  # Password didn't match
+        return None

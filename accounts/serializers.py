@@ -7,6 +7,7 @@ from rest_framework import serializers
 from .models import CustomUser
 from django.contrib.auth import authenticate, get_user_model
 from student.models import StudentSession
+from django.contrib.auth.password_validation import validate_password
 
 User = get_user_model()
 
@@ -86,6 +87,8 @@ class LoginSerializer(serializers.Serializer):
 
         # Simple regex to check if identifier is email
         is_email = re.match(r"[^@]+@[^@]+\.[^@]+", identifier)
+        if is_email:
+            identifier = identifier.lower()
 
         # Prepare authentication parameters
         auth_kwargs = {'password': password, 'request': request}
@@ -146,3 +149,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
             # 'is_mentor',
             'member_tier',
         ]
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_new_password(self, value):
+        # Validate password strength using Django's validators
+        # validate_password(value)
+        if len(value) < 8:
+            raise serializers.ValidationError(
+                "Password must be at least 8 characters long.")
+        return value

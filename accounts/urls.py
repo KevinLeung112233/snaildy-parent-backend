@@ -1,7 +1,7 @@
 # accounts/urls.py
 
 from django.urls import path
-from .views import AppleLoginView, CheckUserExistView, GoogleLoginView, RegisterView, OTPVerifyView, LoginView, ResendOTPView, UserProfileView, TokenRefreshView
+from .views import AppleLoginView, ChangePasswordView, CheckUserExistView, GoogleLoginView, RegisterView, OTPVerifyView, LoginView, ResendOTPView, UserProfileView, TokenRefreshView, UserSoftDeleteView
 # from rest_framework_simplejwt.views import TokenRefreshView
 from django.urls import path, include
 
@@ -17,4 +17,8 @@ urlpatterns = [
     path('google-login', GoogleLoginView.as_view(), name='google-login'),
     path('apple-login', AppleLoginView.as_view(), name='apple-login'),
     path('check-user-exist', CheckUserExistView.as_view(), name='check-user-exist'),
+    path('delete-account', UserSoftDeleteView.as_view(), name='delete_account'),
+    path('change-password',
+         ChangePasswordView.as_view(), name='change-password'),
+
 ]

@@ -114,6 +114,22 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
+    is_deleted = models.BooleanField(default=False, verbose_name="Deleted")
+    deleted_at = models.DateTimeField(
+        null=True, blank=True, verbose_name="Deletion Time")
+
+    # Override delete method for soft delete
+    def soft_delete(self, using=None, keep_parents=False):
+        self.email = f"deleted_{uuid.uuid4()}_{self.email}"
+        self.phone_number = f"deleted_{uuid.uuid4()}_{self.phone_number}"
+        self.is_deleted = True
+        self.deleted_at = timezone.now()
+        self.is_active = False  # deactivate account
+        self.save()
+
+    # Optional: hard delete method to actually remove from DB
+    # def hard_delete(self, using=None, keep_parents=False):
+    #     super().delete(using=using, keep_parents=keep_parents)
 
     class Meta:
         verbose_name = "會員"

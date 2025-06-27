@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 
 from accounts.models import MemberTier
 from accounts.utils import verify_apple_identity_token, verify_google_token
-from .serializers import RegisterSerializer, OTPVerifySerializer, LoginSerializer, UserIdentifierCheckSerializer, UserProfileSerializer
+from .serializers import ChangePasswordSerializer, RegisterSerializer, OTPVerifySerializer, LoginSerializer, UserIdentifierCheckSerializer, UserProfileSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
 from django.core.cache import cache
@@ -16,6 +16,9 @@ import random
 from rest_framework.permissions import IsAuthenticated
 from typing import Tuple
 from django.utils.timezone import now
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.contrib import messages
 
 
 User = get_user_model()
@@ -317,3 +320,41 @@ class AppleLoginView(APIView):
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         })
+
+
+class UserSoftDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        user.soft_delete()
+        return Response(
+            {"detail": "Your account has been deleted."},
+            status=status.HTTP_200_OK
+        )
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+        old_password = serializer.validated_data['old_password']
+        new_password = serializer.validated_data['new_password']
+
+        # Check old password
+        if not user.check_password(old_password):
+            return Response(
+                {"old_password": ["Old password is not correct."]},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Set new password
+        user.set_password(new_password)
+        user.save()
+
+        return Response({"detail": "Password updated successfully."}, status=status.HTTP_200_OK)
