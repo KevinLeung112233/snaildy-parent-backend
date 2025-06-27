@@ -126,9 +126,9 @@ class StudentSessionSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
-    student_sessions = StudentSessionSerializer(
-        source='student_sessions', many=True, read_only=True)
-    member_tier = serializers.StringRelatedField()  # show member tier name
+    # student_sessions = StudentSessionSerializer(
+    #     source='student_sessions', many=True, read_only=True)
+    member_tier = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = CustomUser
@@ -139,10 +139,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'salutation',
             'first_name',
             'last_name',
-            'login_method',
+            # 'login_method',
             'date_joined',
             'is_active',
-            'is_staff',
-            'is_mentor',
+            # 'is_staff',
+            # 'is_mentor',
             'member_tier',
         ]

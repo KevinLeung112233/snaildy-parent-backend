@@ -215,9 +215,14 @@ curl -X POST http://192.168.1.2:8081/api/v1/token-refresh/ \
 -H "Content-Type: application/json" \
 -d '{"refresh-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MzUzNjc2MSwiaWF0IjoxNzUwOTQ0NzYxLCJqdGkiOiJkYjIxY2FlNjgxYTM0YjBkYWI4YzRkMGIxMzdkNDk2MiIsInVzZXJfaWQiOjI1fQ.6iy-l7_YUZ2W1nIf3GRvd4u7-QYG6MplLPq9BPlM98g"}'
 
-curl -X POST http://192.168.1.2:8081/api/v1/token-refresh/ \
+curl -X POST http://192.168.1.2:8081/api/v1/token-refresh \
 -H "Content-Type: application/json" \
 -d '{"refresh-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MzUzNjc2MSwiaWF0IjoxNzUwOTQ0NzYxLCJqdGkiOiJkYjIxY2FlNjgxYTM0YjBkYWI4YzRkMGIxMzdkNDk2MiIsInVzZXJfaWQiOjI1fQ.6iy-l7_YUZ2W1nIf3GRvd4u7-QYG6MplLPq9BPlM98g"}'
+
+
+curl -X GET http://192.168.1.2:8081/api/v1/profile \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxODEyNTk2LCJpYXQiOjE3NTA5NDQ3NjEsImp0aSI6IjBkMTAzNDI3ODI4YzQ2N2I5OTc3ZWM3NTdhZTEzYjFjIiwidXNlcl9pZCI6MjV9.8YwuBZda6RXlKtuY2bs95iAptQUWJj40gac2CdAT8YI"
 
 from django.core.mail import send_mail
 
